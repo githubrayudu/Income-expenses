@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <header>    
+    <button onclick="logout()">Log out</button>
+     <div class="logo">Income & Expenses Dashboard</div>
+  </header>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="styles6.css">
+</head>
+<body>
+  <div class="navbar">
+   
+    <div class="nav-links">
+      <a href="income.html">Go to Income</a>
+      <a href="expenses.html">Go to Expenses</a>
+  
+ 
+    </div>
+  </div>
+ 
+  <script src="shared.js"></script>
+  <script>
+    logout = () => { localStorage.removeItem('loggedin'); window.location.href = 'login.html'; };
+    checkAuth();
+  </script>
+</body>
+
+</html>

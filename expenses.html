@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Expenses</title>
+  <link rel="stylesheet" href="styles6.css"/>
+</head>
+<body>
+  <header>
+    <h1>Expenses Transactions</h1>
+    <button onclick="navBack()">Back</button>
+  </header>
+
+  <main>
+    <h2>Add Expense</h2>
+    <form id="transactionForm" action="#">
+      <input type="date" id="dateOfTransaction" placeholder="Date" required />
+      <input type="text" id="reviewer" placeholder="Reviewer" required />
+      <input type="text" id="category" placeholder="Category" required />
+      <input type="text" id="description" placeholder="Description" required />
+      <input type="text" id="invoiceNo" placeholder="Invoice No" required />
+      <input type="text" id="productName" placeholder="Product Name" required />
+      <input type="number" id="quantity" placeholder="Quantity" required />
+      <input type="number" id="amount" placeholder="Amount" required />
+      <input type="hidden" id="type" value="expenses"/>
+      <button type="submit">Add Expense</button>
+    </form>
+
+    <h2>Expenses History</h2>
+    <table id="transactions" style="width: 100%;">
+      <thead>
+        <tr>
+          <th>Transaction Date</th>
+          <th>Transaction Type</th>
+          <th>Reviewer</th>
+          <th>Category</th>
+          <th>Description</th>
+          <th>Invoice No</th>
+          <th>Product Name</th>
+          <th>Quantity</th>
+          <th>Amount (₹)</th>
+        </tr>
+      </thead>
+      <tbody id="transactionList"></tbody>
+    </table>
+
+    <h3>Total Expenses: ₹ <span id="balanceAmount">0</span></h3>
+  </main>
+
+  <script src="shared.js"></script>
+  <script src="script.js"></script>
+  <script>
+    checkAuth();
+    navBack = () => window.location.href = 'dashboard.html';
+  </script>
+</body>
+</html>
