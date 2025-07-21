@@ -1,0 +1,59 @@
+
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Income</title>
+    <link rel="stylesheet" href="styles6.css">
+</head>
+<body>
+<div>
+  <h3>Financial Summary</h3>
+  <p>Total Income: Rs <span id="incomeTotal">0.00</span></p>
+  <p>Total Expenses: Rs <span id="expensesTotal">0.00</span></p>
+  <p><strong>Result:</strong> <span id="profitOrLoss">Calculating...</span></p>
+</div>
+
+<script>
+async function fetchTotal(endpoint) {
+  try {
+    const res = await fetch(endpoint);
+    if (!res.ok) throw new Error(`Failed to fetch from ${endpoint}`);
+    const data = await res.json();
+    if (!Array.isArray(data)) return 0;
+    return data.reduce((sum, tx) => sum + parseFloat(tx.amount || 0), 0);
+  } catch (err) {
+    console.error(err);
+    return 0;
+  }
+}
+
+async function calculateProfitOrLoss() {
+  const incomeEndpoint = "http://localhost/Ei_backend/api/income.php";
+  const expensesEndpoint = "http://localhost/Ei_backend/api/expenses.php";
+
+  const [income, expenses] = await Promise.all([
+    fetchTotal(incomeEndpoint),
+    fetchTotal(expensesEndpoint)
+  ]);
+
+  document.getElementById("incomeTotal").textContent = income.toFixed(2);
+  document.getElementById("expensesTotal").textContent = expenses.toFixed(2);
+
+  const resultEl = document.getElementById("profitOrLoss");
+
+  if (income > expenses) {
+    resultEl.textContent = `Profit: RS ${(income - expenses).toFixed(2)}`;
+    resultEl.style.color = "green";
+  } else if (expenses > income) {
+    resultEl.textContent = `Loss: Rs ${(expenses - income).toFixed(2)}`;
+    resultEl.style.color = "red";
+  } else {
+    resultEl.textContent = "Break-even";
+    resultEl.style.color = "gray";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", calculateProfitOrLoss);
+</script>
+</body>
