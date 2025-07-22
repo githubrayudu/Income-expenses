@@ -7,11 +7,34 @@
     <link rel="stylesheet" href="styles6.css">
 </head>
 <body>
+  <body>
+  <div class="hamburger" id="hamburger">
+  <span></span>
+  <span> </span>
+  <span></span>
+</div>
+    <nav class="nav-menu" id="navMenu">
+      <ul>
+      <li>
+      <a href="income.html">Go to Income</a></li>
+      <li><a href="expenses.html">Go to Expenses</a></li>
+     <li> <a href = "summary.html" > Summary</a></li></ul>
+  
+ </nav>
+ <script>
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+
+    hamburger.addEventListener('click', () => {
+      navMenu.classList.toggle('open');
+      hamburger.classList.toggle('clicked')
+    });
+  </script>
 <div>
-  <h3>Financial Summary</h3>
-  <p>Total Income: Rs <span id="incomeTotal">0.00</span></p>
-  <p>Total Expenses: Rs <span id="expensesTotal">0.00</span></p>
-  <p><strong>Result:</strong> <span id="profitOrLoss">Calculating...</span></p>
+  <h1>Financial Summary</h1>
+  <h1>Total Income: Rs <span id="incomeTotal">0.00</span></h1>
+  <h1>Total Expenses: Rs <span id="expensesTotal">0.00</span></h1>
+  <h1><strong>Result:</strong> <span id="profitOrLoss">Calculating...</span></h1>
 </div>
 
 <script>

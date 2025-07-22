@@ -1,0 +1,87 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.hamburger {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  cursor: pointer;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 20px;
+}
+
+.hamburger span {
+  display: block;
+  height: 3px;
+  background: green;
+  border-radius: 2px;
+}
+
+/* Navigation Menu */
+.nav-menu {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 200px;
+  height: 100%;
+  background-color: white;
+  border-right: 2px solid green;
+  padding: 40px 10px;
+  box-sizing: border-box;
+  transition: left 0.3s ease-in-out;
+  z-index: 999;
+}
+
+.nav-menu.open {
+  left: 0;
+}
+
+.nav-menu ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.nav-menu li {
+  margin-bottom: 20px;
+}
+
+.nav-menu a {
+  text-decoration: none;
+  color: green;
+  border: 1px solid green;
+  padding: 10px;
+  display: inline-block;
+  border-radius: 5px;
+}
+
+/* Main Page Content */
+.container {
+  margin-left: 20px;
+  padding: 20px;
+  transition: margin-left 0.3s;
+}
+
+.nav-menu.open ~ .container {
+  margin-left: 220px; /* Adjust based on menu width */
+}
+
+.left-section, .right-section {
+  margin-top: 60px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .nav-menu {
+    width: 70%;
+  }
+}

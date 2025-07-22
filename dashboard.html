@@ -2,26 +2,38 @@
 <html lang="en">
 <head>
    <header>    
-    <button onclick="logout()">Log out</button>
+   
      <div class="logo">Income & Expenses Dashboard</div>
+      <button onclick="logout()">Log out</button>
   </header>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>Dashboard</title>
-  <link rel="stylesheet" href="styles6.css">
+  <link rel="stylesheet" href="styles7.css">
 </head>
 <body>
-  <div class="navbar">
-   
-    <div class="nav-links">
-      <a href="income.html">Go to Income</a>
-      <a href="expenses.html">Go to Expenses</a>
-      <a href = "summary.html" > Summary</a>
+  <div class="hamburger" id="hamburger">
+  <span></span>
+  <span> </span>
+  <span></span>
+</div>
+    <nav class="nav-menu" id="navMenu">
+      <ul>
+      <li>
+      <a href="income.html">Go to Income</a></li>
+      <li><a href="expenses.html">Go to Expenses</a></li>
+     <li> <a href = "summary.html" > Summary</a></li></ul>
   
- 
-    </div>
-  </div>
- 
+ </nav>
+ <script>
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+
+    hamburger.addEventListener('click', () => {
+      navMenu.classList.toggle('open');
+      hamburger.classList.toggle('clicked')
+    });
+  </script>
   <script src="shared.js"></script>
   <script>
     logout = () => { localStorage.removeItem('loggedin'); window.location.href = 'login.html'; };
