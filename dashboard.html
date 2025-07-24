@@ -4,38 +4,63 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
-    <link rel="stylesheet" href="stylesheet1.css" />
+    <link rel="stylesheet" href="dashboardstyletest.css" />
 
-    <style>
-      /* Style for the profile name */
-      .profile-name {
-        position: absolute;
-        top: 10px;
-        right: 150px;
-        font-size: 16px;
-        font-weight: bold;
-        color: #333;
-      }
-    </style>
+
+
+    <script src="shared.js"></script>
   </head>
   <body>
-    
-    <header>
-      <!-- Top bar and logout button -->
-      <div class="top-bar">
-        <!-- Profile name (will be displayed once user logs in) -->
-    <div id="profileName" class="profile-name" style="display:outside;">
-      <span id="userNameDisplay"></span>
+    <div class="main-content">
+      <br />
+      <header>
+        <!-- Top bar and logout button -->
+        <div class="top-bar">
+          <!-- Profile name (will be displayed once user logs in) -->
+          <div id="profileName" class="profile-name" style="display: outside">
+            <span id="userNameDisplay"></span>
+          </div>
+          <button class="logout-button" onclick="logout()">Logout</button>
+        </div>
+        <div>
+          <br />
+         
+        </div>
+        <h1>Good Evening </h1>
+        <p>Welcome - Your  Income & Expenses Dashboard</p>
+        <div class="date-time">
+          <p>Today: <span id="date"></span></p>
+          <p>Time: <span id="time"></span></p>
+        </div>
+      </header>
+      
+      <div class="dashboard">
+        <div class="card">
+          <h2>Total Sales</h2>
+          <p id="total-sales">₹3,316.11</p>
+        </div>
+        <div class="card">
+          <h2>Today's Sales</h2>
+          <p id="todays-sales">₹0</p>
+        </div>
+        <div class="card">
+          <h2>Active Vendors</h2>
+          <p id="active-vendors">7</p>
+        </div>
+        <div class="card">
+          <h2>Avg. Transaction</h2>
+          <p id="avg-transaction">₹415</p>
+        </div>
+        <div class="card">
+          <h2>Total Products</h2>
+          <p id="total-products">38</p>
+        </div>
+        <div class="card">
+          <h2>Stock Alerts</h2>
+          <p id="stock-alerts">17</p>
+        </div>
+      </div>
     </div>
-
-        <button class="logout-button" onclick="logout()">Logout</button>
-      </div>
-      <div >
-        <br>
-        Income & Expenses Dashboard
-      </div>
-    </header>
-
     <div class="hamburger" id="hamburger">
       <span></span>
       <span></span>
@@ -50,23 +75,8 @@
       </ul>
     </nav>
 
-    <script>
-      // Function to handle hamburger menu toggling
-      const hamburger = document.getElementById("hamburger");
-      const navMenu = document.getElementById("navMenu");
-
-      hamburger.addEventListener("click", () => {
-        navMenu.classList.toggle("open");
-        hamburger.classList.toggle("clicked");
-      });
-
-      // Function to handle user logout
-      const logout = () => {
-        localStorage.removeItem("loggedin");
-        window.location.href = "index.html"; // Redirect to login page
-      };
-
-      // Check if the user is logged in
+   <script>
+     // Check if the user is logged in
       const checkAuth = () => {
         const loggedIn = localStorage.getItem("loggedin");
         if (loggedIn) {
@@ -78,11 +88,15 @@
           window.location.href = "index.html"; // Redirect to login if not logged in
         }
       };
+     // Function to handle user logout
 
-      // Call checkAuth to verify if the user is logged in
+      const logout = () => {
+        localStorage.removeItem("loggedin");
+        window.location.href = "index.html"; // Redirect to login page
+      };
       checkAuth();
-    </script>
-
-    <script src="shared.js"></script>
+   </script>
+    <script src="test.js"></script>
+  
   </body>
 </html>

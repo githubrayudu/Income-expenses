@@ -1,14 +1,15 @@
 /* Reset & Base Styles */
 * {
-  box-sizing: content-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
 body {
-  background: rgb(67, 137, 213);
-  color: #e5d8d8;
-  margin: 0;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
   min-height: 100vh;
+  background-color: #f4f7fc;
 }
 
 .profile-name {
@@ -20,15 +21,21 @@ body {
   color: #100e0e;
 }
 
+
 /* Header */
 header {
-  padding: 10px;
-  text-align: center;
-  font-size: 35px;
-  color: white;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
 
-/* Top bar and logout button */
+/* heading  */
+h1 {
+  color: #333;
+}
+/*top bar and the logout button */
 .top-bar {
   position: fixed;
   top: 0;
@@ -36,12 +43,55 @@ header {
   width: 100%;
   height: 50px;
   background-color: #f8f8f8;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: flex-end;
   align-items: center;
   padding-right: 20px;
   z-index: 1000;
+}
+
+/*  for dashboard */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* for individual cards (boxes)  */
+
+.card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+}
+
+/* card (boxes)heading  */
+
+.card h2 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* card (boxes)paragraphg */
+
+.card p {
+  font-size: 20px;
+  color: #007aff;
+}
+
+/* for date and time */
+.date-time p {
+  font-size: 14px;
+  color: #666;
+}
+
+#date,
+#time {
+  font-weight: bold;
 }
 
 .logout-button {
@@ -64,51 +114,6 @@ header {
   padding-top: 80px;
 }
 
-/* ✅ Generic Input Styling */
-input[type="text"],
-input[type="number"],
-input[type="email"],
-input[type="password"],
-input[type="date"],
-input[type="search"],
-input[type="tel"],
-input[type="url"],
-textarea,
-select {
-  padding: 10px 14px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-  font-family: inherit;
-  margin-bottom: 12px;
-  width: 100%;
-  max-width: 400px;
-  box-sizing: border-box;
-  background-color: #f9f9f9;
-  color: #222;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  outline: none;
-  border-color: green;
-  box-shadow: 0 0 5px rgba(0, 128, 0, 0.4);
-}
-
-/* Table Styles */
-table {
-  width: 100%;
-  margin-top: 20px;
-  border-collapse: collapse;
-}
-
-th,
-td {
-  padding: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
 /* Footer */
 footer {
   background-color: #444;
@@ -116,18 +121,6 @@ footer {
   text-align: center;
   color: white;
   font-size: 14px;
-}
-
-/* Search box */
-#searchBox {
-  width: 200px;
-  padding: 8px;
-  margin-bottom: 10px;
-}
-
-#searchResults li {
-  list-style: none;
-  padding: 5px;
 }
 
 /* Hamburger Icon */
@@ -155,7 +148,7 @@ footer {
 /* Navigation Menu */
 .nav-menu {
   overflow-y: auto;
-  background-color: #f5f5f5;
+  background-color: #f5f5f5; /* Optional: better visibility */
   border: 1px solid #ccc;
   position: fixed;
   top: 0;
@@ -213,57 +206,21 @@ footer {
   background: #555;
 }
 
-
-.nav-menu ul li {
-  position: relative;
-}
-
-.nav-menu ul li a {
-  display: block;
-  padding: 10px;
-  color: green;
-  text-decoration: none;
-}
-
-.nav-menu ul li a:hover {
-  background-color: #f0f0f0;
-}
-
-.submenu {
-  display: none;
-  position: relative;
-  background-color: #ffffff;
-  padding-left: 15px;
-}
-
-.nav-menu ul li.has-submenu:hover .submenu {
-  display: block;
-}
-
 /* Main Content Layout */
-.container {
+/* .main-content {
+    flex: 1;
+    padding: 20px;
+} */
+
+.main-content {
   margin-left: 20px;
   padding: 20px;
   transition: margin-left 0.3s ease;
 }
 
-.nav-menu.open ~ .container {
+.nav-menu.open ~ .main-content {
   margin-left: 240px;
 }
-
-.submenu {
-  display: none;
-}
-
-.submenu.open {
-  display: block;
-}
-
-
-
-
-
-
 
 .left-section,
 .right-section {
@@ -279,6 +236,7 @@ footer {
 button {
   background-color: white;
   color: rgb(21, 21, 21);
+
   padding: 5px 10px;
   font-size: 14px;
   border-radius: 6px;
@@ -314,7 +272,6 @@ section::after {
   display: table;
   clear: both;
 }
-
 body::before {
   content: "";
   position: fixed;
@@ -348,11 +305,11 @@ body::before {
 }
 
 @media screen and (max-width: 768px) {
-  .nav-menu {
+  .nav-menu {   
     width: 70%;
   }
 
-  .nav-menu.open ~ .container {
+  .nav-menu.open ~ .main-content {
     margin-left: 70%;
   }
 }

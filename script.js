@@ -12,8 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.error("Transaction type not specified on form");
     return;
   }
-
-
+  
   // Dynamically builds the API endPoint URL depending on the type ,income, expenses
   const endpoint = `http://localhost/Ei_backend/api/${type}.php`;
 
@@ -190,5 +189,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
   fetchTransactions();
+
+// Toggle submenus on click
+document.querySelectorAll('.has-submenu > a').forEach(menu => {
+  menu.addEventListener('click', function (e) {
+    e.preventDefault(); // Prevent the "#" link from scrolling
+    const submenu = this.nextElementSibling;
+    submenu.classList.toggle('open');
+  });
+});
+
+
+
+
+
+
+
+
 });
 
