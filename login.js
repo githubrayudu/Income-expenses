@@ -38,8 +38,11 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 
   if (result.success) {
     localStorage.setItem('loggedin', 'true');
+    localStorage.setItem('username',username)
     document.getElementById('message').innerText = 'Login successful!';
-     window.location.href = "dashboard.html"; // Redirect to a dashboard page
+     // Redirect to a dashboard page
+    
+             window.location.assign("dashboard.html");
   } else {
     document.getElementById('message').innerText = 'Invalid username or password.';
   }

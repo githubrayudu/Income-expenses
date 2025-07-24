@@ -5,11 +5,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Income</title>
-    <link rel="stylesheet" href="styles6.css">
+    <link rel="stylesheet" href="stylesheet1.css">
 </head>
 
-<body>
-    <body>
+<body><header>
+     <!-- Top bar and logout button -->
+      <div class="top-bar">
+        <!-- Profile name (will be displayed once user logs in) -->
+    <div id="profileName" class="profile-name" style="display:outside;">
+      <span id="userNameDisplay"></span>
+    </div>
+        <button class="logout-button" onclick="logout()">Logout</button>
+      </div>
+    </header>
+      <!-- Hamburger Button -->
   <div class="hamburger" id="hamburger">
   <span></span>
   <span> </span>
@@ -17,25 +26,22 @@
 </div>
     <nav class="nav-menu" id="navMenu">
       <ul>
-      <li>
-      <a href="income.html">Go to Income</a></li>
-      <li><a href="expenses.html">Go to Expenses</a></li>
-     <li> <a href = "summary.html" > Summary</a></li></ul>
+       <li><a href="income.html">Income</a></li>
+      <li><a href="expenses.html">Expenses</a></li>
+     <li> <a href = "summary.html" >Summary</a></li>
+    <li><a href="dashboard.html">Dash board</a></li></ul>
   
  </nav>
- <script>
-    const hamburger = document.getElementById('hamburger');
-    const navMenu = document.getElementById('navMenu');
-
-    hamburger.addEventListener('click', () => {
-      navMenu.classList.toggle('open');
-      hamburger.classList.toggle('clicked')
-    });
-  </script>
+  <!-- Main Container -->
     <div class="container">
         <div class="left-section">
-            <h1>Income Transactions</h1>
+                  <h1>Income Transactions</h1>
             <button onclick="navBack()">Back</button>
+        </div>
+        <div>
+                  <h3>Search category:</h3>
+  <input type="text" id="searchBox" placeholder="Type to search...">
+  <ul id="results"></ul>    
         </div>
 <div class="right-section">
         <h2>Add Income </h2>
@@ -49,7 +55,7 @@
             <input type="number" id="quantity" placeholder="Quantity" required />
             <input type="number" id="amount" placeholder=" Amount of Unit" required />
             <input type="hidden" id="type" value="income" />
-            <button type="submit">Add Income</button>
+            <button type="submit">Submit</button>
         </form>
         <h2>Transaction History</h2>
         <div class="table-wrapper">
@@ -74,8 +80,44 @@
         </div>
         </div>
         <h3>Total Income : Rs <span id="balanceAmount">0</span></h3>
-        <script src="shared.js"></script>
-        <script src="./script.js"></script>
-        <script>checkAuth(); navBack = () => window.location.href = 'dashboard.html';
-        </script>
+
+
+          <script src="script.js"></script>
+         <script>
+          // Check if the user is logged in
+      const checkAuth = () => {
+        const loggedIn = localStorage.getItem("loggedin");
+        if (loggedIn) {
+          const username = localStorage.getItem("username");
+          // Display profile name at the top right
+          document.getElementById("profileName").style.display = "block";
+          document.getElementById("userNameDisplay").textContent = username;
+        } else {
+          window.location.href = "index.html"; // Redirect to login if not logged in
+        }
+      };
+        checkAuth();
+    function navBack() {
+      window.location.href = 'dashboard.html';
+    }
+      
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+
+    hamburger.addEventListener('click', () => {
+      navMenu.classList.toggle('open');
+      hamburger.classList.toggle('clicked')
+    });
+logout = () => {
+        localStorage.removeItem("loggedin");
+        window.location.href = "index.html";
+      };
+
+
+    //back function script 
+    checkAuth();
+    
+  </script>
+        
+       
 </body>
