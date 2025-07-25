@@ -5,62 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
     <link rel="stylesheet" href="dashboardstyletest.css" />
-
-
-
-    <script src="shared.js"></script>
   </head>
   <body>
     <div class="main-content">
       <br />
       <header>
-        <!-- Top bar and logout button -->
         <div class="top-bar">
-          <!-- Profile name (will be displayed once user logs in) -->
-          <div id="profileName" class="profile-name" style="display: outside">
+          <div id="profileName" class="profile-name" style="display: none">
             <span id="userNameDisplay"></span>
           </div>
           <button class="logout-button" onclick="logout()">Logout</button>
         </div>
-        <div>
-          <br />
-         
-        </div>
-        <h1>Good Evening </h1>
-        <p>Welcome - Your  Income & Expenses Dashboard</p>
+        <br />
+        <h1>Good Evening</h1>
+        <p>Welcome - Your Income & Expenses Dashboard</p>
         <div class="date-time">
           <p>Today: <span id="date"></span></p>
           <p>Time: <span id="time"></span></p>
         </div>
       </header>
-      
+
       <div class="dashboard">
-        <div class="card">
-          <h2>Total Sales</h2>
-          <p id="total-sales">₹3,316.11</p>
-        </div>
-        <div class="card">
-          <h2>Today's Sales</h2>
-          <p id="todays-sales">₹0</p>
-        </div>
-        <div class="card">
-          <h2>Active Vendors</h2>
-          <p id="active-vendors">7</p>
-        </div>
-        <div class="card">
-          <h2>Avg. Transaction</h2>
-          <p id="avg-transaction">₹415</p>
-        </div>
-        <div class="card">
-          <h2>Total Products</h2>
-          <p id="total-products">38</p>
-        </div>
-        <div class="card">
-          <h2>Stock Alerts</h2>
-          <p id="stock-alerts">17</p>
-        </div>
+        <div class="card"><h2>Total Income</h2><p id="total-income">₹0</p></div>
+        <div class="card"><h2>Total Expenses</h2><p id="total-expenses">₹0</p></div>
+        <div class="card"><h2>Result</h2><p id="profitOrLoss">-</p></div>
+        <div class="card"><h2>dummy data </h2><p id="avg-transaction">₹0</p></div>
+        <div class="card"><h2>dummy data</h2><p id="total-products">0</p></div>
+        <div class="card"><h2>dummy data</h2><p id="stock-alerts">0</p></div>
       </div>
     </div>
+
     <div class="hamburger" id="hamburger">
       <span></span>
       <span></span>
@@ -75,28 +49,57 @@
       </ul>
     </nav>
 
-   <script>
-     // Check if the user is logged in
+    <script src="test.js"></script>
+    <script src="shared.js"></script>
+    <script>
+      // Authentication check
       const checkAuth = () => {
         const loggedIn = localStorage.getItem("loggedin");
         if (loggedIn) {
           const username = localStorage.getItem("username");
-          // Display profile name at the top right
           document.getElementById("profileName").style.display = "block";
           document.getElementById("userNameDisplay").textContent = username;
         } else {
-          window.location.href = "index.html"; // Redirect to login if not logged in
+          window.location.href = "index.html";
         }
       };
-     // Function to handle user logout
 
+      
+// Calculate Profit or Loss
+async function calculateProfitOrLoss() {
+  const incomeEndpoint = "http://localhost/Ei_backend/api/income.php";
+  const expensesEndpoint = "http://localhost/Ei_backend/api/expenses.php";
+
+  const [income, expenses] = await Promise.all([
+    fetchTotal(incomeEndpoint),
+    fetchTotal(expensesEndpoint),
+  ]);
+console.log(income);
+console.log(expenses)
+  document.getElementById("total-income").textContent = `₹${income.toFixed(2)}`;
+  document.getElementById("total-expenses").textContent = `₹${expenses.toFixed(2)}`;
+
+  const resultEl = document.getElementById("profitOrLoss");
+  if (income > expenses) {
+    resultEl.textContent = `Profit: ₹${(income - expenses).toFixed(2)}`;
+    resultEl.style.color = "green";
+  } else if (expenses > income) {
+    resultEl.textContent = `Loss: ₹${(expenses - income).toFixed(2)}`;
+    resultEl.style.color = "red";
+  } else {
+    resultEl.textContent = "Break-even";
+    resultEl.style.color = "gray";
+  }
+}
+
+
+      // Logout
       const logout = () => {
         localStorage.removeItem("loggedin");
-        window.location.href = "index.html"; // Redirect to login page
+        window.location.href = "index.html";
       };
-      checkAuth();
-   </script>
-    <script src="test.js"></script>
-  
+
+      document.addEventListener("DOMContentLoaded", checkAuth);
+    </script>
   </body>
 </html>

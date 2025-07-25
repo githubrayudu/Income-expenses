@@ -112,10 +112,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-
-
-
-
       }
       else {
         const row = document.createElement("tr");
