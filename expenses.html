@@ -28,10 +28,34 @@
   <!-- Navigation Menu -->
   <nav class="nav-menu" id="navMenu">
     <ul>
-       <li><a href="income.html">Income</a></li>
-      <li><a href="expenses.html">Expenses</a></li>
-     <li> <a href = "summary.html" >Summary</a></li>
-    <li><a href="dashboard.html">Dash board</a></li>
+      <li class="has-submenu">
+        <a href="#">Income <span class="arrow">▶</span></a>
+        <ul class="submenu">
+          <li><a href="income.html">income data</a></li>
+          <li><a href="income.html">add Income</a></li>
+          <li><a href="income.html">Yearly</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu">
+        <a href="#">Expenses <span class="arrow">▶</span></a>
+        <ul class="submenu">
+          <li><a href="expenses.html">expenses data</a></li>
+          <li><a href="expenses.html">add Expenses</a></li>
+          <li><a href="expenses.html">Yearly</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu">
+        <a href="#">Summary <span class="arrow">▶</span></a>
+        <ul class="submenu">
+          <li><a href="summary.html">summary</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu">
+        <a href="#">Dashboard <span class="arrow">▶</span></a>
+        <ul class="submenu">
+          <li><a href="dashboard.html">dash board data</a></li>
+        </ul>
+      </li>
     </ul>
   </nav>
 
@@ -107,12 +131,7 @@
       window.location.href = 'dashboard.html';
     }
 
-    const hamburger = document.getElementById('hamburger');
-    const navMenu = document.getElementById('navMenu');
-    hamburger.addEventListener('click', () => {
-      navMenu.classList.toggle('open');
-       hamburger.classList.toggle('clicked')
-    });
+  
 
       logout = () => {
         localStorage.removeItem("loggedin");
@@ -120,5 +139,37 @@
       };
       checkAuth();
     </script>
+
+      <!-- JavaScript -->
+  <script>
+    const hamburger = document.getElementById("hamburger");
+    const navMenu = document.getElementById("navMenu");
+
+    // Toggle side menu
+    hamburger.addEventListener("click", () => {
+      navMenu.classList.toggle("open");
+      hamburger.classList.toggle("clicked");
+    });
+
+    // Toggle submenu and rotate arrow
+    document.querySelectorAll(".has-submenu > a").forEach(link => {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        const submenu = this.nextElementSibling;
+        submenu.classList.toggle("open");
+
+        const arrow = this.querySelector(".arrow");
+        if (arrow) arrow.classList.toggle("rotate");
+      });
+    });
+
+    // Optional: Close menu on link click (mobile)
+    document.querySelectorAll(".nav-menu .submenu a").forEach(link => {
+      link.addEventListener("click", () => {
+        navMenu.classList.remove("open");
+        hamburger.classList.remove("clicked");
+      });
+    });
+  </script>
 </body>
 </html>

@@ -6,77 +6,104 @@
 </head>
 
 <body>
-   <header>
-      <!-- Top bar and logout button -->
-      <div class="top-bar">
-        <!-- Profile name (will be displayed once user logs in) -->
-    <div id="profileName" class="profile-name" style="display:outside;">
-      <span id="userNameDisplay"></span>
-    </div>
-        <button class="logout-button" onclick="logout()">Logout</button>
+  <header>
+    <!-- Top bar and logout button -->
+    <div class="top-bar">
+      <div id="profileName" class="profile-name" style="display: none">
+        <span id="userNameDisplay"></span>
       </div>
-      </header>
-    <!-- Hamburger Button -->
+      <button class="logout-button" onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <!-- Hamburger Button -->
   <div class="hamburger" id="hamburger">
     <span></span>
-    <span> </span>
+    <span></span>
     <span></span>
   </div>
-   <!-- Navigation Menu -->
+
+  <!-- Navigation Menu -->
   <nav class="nav-menu" id="navMenu">
     <ul>
-    <li><a href="income.html">Income</a></li>
-    <li><a href="expenses.html">Expenses</a></li>
-    <li><a href="summary.html">Summary</a></li>
-    <li><a href="dashboard.html">Dashboard</a></li>
-
-    <li class="has-submenu">
-      <a href="#">Reports</a>
-      <ul class="submenu">
-        <li><a href="daily-report.html">Daily</a></li>
-        <li><a href="monthly-report.html">Monthly</a></li>
-        <li><a href="yearly-report.html">Yearly</a></li>
-      </ul>
-    </li>
-
-    <li class="has-submenu">
-      <a href="#">Settings</a>
-      <ul class="submenu">
-        <li><a href="profile.html">Profile</a></li>
-        <li><a href="security.html">Security</a></li>
-      </ul>
-    </li>
-  </ul>
+      <li class="has-submenu">
+        <a href="#">Income <span class="arrow">▶</span></a>
+        <ul class="submenu">
+          <li><a href="income.html">income data</a></li>
+          <li><a href="income.html">add Income</a></li>
+          <li><a href="income.html">Yearly</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu">
+        <a href="#">Expenses <span class="arrow">▶</span></a>
+        <ul class="submenu">
+          <li><a href="expenses.html">expenses data</a></li>
+          <li><a href="expenses.html">add Expenses</a></li>
+          <li><a href="expenses.html">Yearly</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu">
+        <a href="#">Summary <span class="arrow">▶</span></a>
+        <ul class="submenu">
+          <li><a href="summary.html">summary</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu">
+        <a href="#">Dashboard <span class="arrow">▶</span></a>
+        <ul class="submenu">
+          <li><a href="dashboard.html">dash board data</a></li>
+        </ul>
+      </li>
+    </ul>
   </nav>
-<div class="container">
-  <div class="left-section">
-    <h1>Financial Summary</h1>
-    <button onclick="navBack()">Back</button>
-    
-    <h1>Total Income: Rs <span id="incomeTotal">0.00</span></h1>
-    <h1>Total Expenses: Rs <span id="expensesTotal">0.00</span></h1>
-    <h1>
-      <strong>Result:</strong> <span id="profitOrLoss">Calculating...</span>
-    </h1>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="left-section">
+      <h1>Financial Summary</h1>
+      <button onclick="navBack()">Back</button>
+
+      <h1>Total Income: Rs <span id="incomeTotal">0.00</span></h1>
+      <h1>Total Expenses: Rs <span id="expensesTotal">0.00</span></h1>
+      <h1>
+        <strong>Result:</strong> <span id="profitOrLoss">Calculating...</span>
+      </h1>
+    </div>
   </div>
-  </div>
+
+  <!-- JavaScript -->
   <script>
     const hamburger = document.getElementById("hamburger");
     const navMenu = document.getElementById("navMenu");
 
+    // Toggle side menu
     hamburger.addEventListener("click", () => {
       navMenu.classList.toggle("open");
       hamburger.classList.toggle("clicked");
     });
 
-    // Optional: Close nav menu when a link is clicked (for mobile)
-    document.querySelectorAll(".nav-menu a").forEach((link) => {
+    // Toggle submenu and rotate arrow
+    document.querySelectorAll(".has-submenu > a").forEach(link => {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        const submenu = this.nextElementSibling;
+        submenu.classList.toggle("open");
+
+        const arrow = this.querySelector(".arrow");
+        if (arrow) arrow.classList.toggle("rotate");
+      });
+    });
+
+    // Optional: Close menu on link click (mobile)
+    document.querySelectorAll(".nav-menu .submenu a").forEach(link => {
       link.addEventListener("click", () => {
         navMenu.classList.remove("open");
         hamburger.classList.remove("clicked");
       });
     });
   </script>
+
+  <!-- Summary Data Fetch -->
   <script>
     async function fetchTotal(endpoint) {
       try {
@@ -90,6 +117,7 @@
         return 0;
       }
     }
+
     async function calculateProfitOrLoss() {
       const incomeEndpoint = "http://localhost/Ei_backend/api/income.php";
       const expensesEndpoint = "http://localhost/Ei_backend/api/expenses.php";
@@ -98,11 +126,11 @@
         fetchTotal(expensesEndpoint),
       ]);
       document.getElementById("incomeTotal").textContent = income.toFixed(2);
-      document.getElementById("expensesTotal").textContent =
-        expenses.toFixed(2);
+      document.getElementById("expensesTotal").textContent = expenses.toFixed(2);
+
       const resultEl = document.getElementById("profitOrLoss");
       if (income > expenses) {
-        resultEl.textContent = `Profit: RS ${(income - expenses).toFixed(2)}`;
+        resultEl.textContent = `Profit: Rs ${(income - expenses).toFixed(2)}`;
         resultEl.style.color = "green";
       } else if (expenses > income) {
         resultEl.textContent = `Loss: Rs ${(expenses - income).toFixed(2)}`;
@@ -112,31 +140,33 @@
         resultEl.style.color = "gray";
       }
     }
+
     document.addEventListener("DOMContentLoaded", calculateProfitOrLoss);
   </script>
+
+  <!-- Auth & Navigation -->
   <script>
-     // Check if the user is logged in
-      const checkAuth = () => {
-        const loggedIn = localStorage.getItem("loggedin");
-        if (loggedIn) {
-          const username = localStorage.getItem("username");
-          // Display profile name at the top right
-          document.getElementById("profileName").style.display = "block";
-          document.getElementById("userNameDisplay").textContent = username;
-        } else {
-          window.location.href = "index.html"; // Redirect to login if not logged in
-        }
-      };
-  </script>
-  <script>
-    checkAuth();
-    navBack = () => window.location.href ='dashboard.html';
-  </script>
-  <script>
-      logout = () => {
-        localStorage.removeItem("loggedin");
+    const checkAuth = () => {
+      const loggedIn = localStorage.getItem("loggedin");
+      if (loggedIn) {
+        const username = localStorage.getItem("username");
+        document.getElementById("profileName").style.display = "block";
+        document.getElementById("userNameDisplay").textContent = username;
+      } else {
         window.location.href = "index.html";
-      };
-      checkAuth();
-    </script>
+      }
+    };
+
+    const logout = () => {
+      localStorage.removeItem("loggedin");
+      window.location.href = "index.html";
+    };
+
+    const navBack = () => {
+      window.location.href = "dashboard.html";
+    };
+
+    checkAuth();
+  </script>
 </body>
+  

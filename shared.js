@@ -10,15 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-          // Function to handle hamburger menu toggling
-      const hamburger = document.getElementById("hamburger");
-      const navMenu = document.getElementById("navMenu");
-
-      hamburger.addEventListener("click", () => {
-        navMenu.classList.toggle("open");
-        hamburger.classList.toggle("clicked");
-      });
-
   
 
       // To update the current date and time dynamically

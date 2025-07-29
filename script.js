@@ -186,14 +186,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   fetchTransactions();
 
-// Toggle submenus on click
-document.querySelectorAll('.has-submenu > a').forEach(menu => {
-  menu.addEventListener('click', function (e) {
-    e.preventDefault(); // Prevent the "#" link from scrolling
-    const submenu = this.nextElementSibling;
-    submenu.classList.toggle('open');
-  });
-});
 
 
 

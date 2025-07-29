@@ -4,50 +4,98 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
-    <link rel="stylesheet" href="dashboardstyletest.css" />
+    <link rel="stylesheet" href="stylesheet1.css" />
   </head>
   <body>
-    <div class="main-content">
-      <br />
-      <header>
-        <div class="top-bar">
-          <div id="profileName" class="profile-name" style="display: none">
-            <span id="userNameDisplay"></span>
-          </div>
-          <button class="logout-button" onclick="logout()">Logout</button>
+    <header>
+      <!-- Top bar and logout button -->
+      <div class="top-bar">
+        <div id="profileName" class="profile-name" style="display: none">
+          <span id="userNameDisplay"></span>
         </div>
-        <br />
-        <h1>Good Evening</h1>
-        <p>Welcome - Your Income & Expenses Dashboard</p>
+        <button class="logout-button" onclick="logout()">Logout</button>
+      </div>
+    </header>
+
+      <!-- Hamburger Button -->
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <!-- Navigation Menu -->
+  <nav class="nav-menu" id="navMenu">
+    <ul>
+      <li class="has-submenu">
+        <a href="#">Income <span class="arrow">▶</span></a>
+        <ul class="submenu">
+          <li><a href="income.html">income data</a></li>
+          <li><a href="income.html">add Income</a></li>
+          <li><a href="income.html">Yearly</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu">
+        <a href="#">Expenses <span class="arrow">▶</span></a>
+        <ul class="submenu">
+          <li><a href="expenses.html">expenses data</a></li>
+          <li><a href="expenses.html">add Expenses</a></li>
+          <li><a href="expenses.html">Yearly</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu">
+        <a href="#">Summary <span class="arrow">▶</span></a>
+        <ul class="submenu">
+          <li><a href="summary.html">summary</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu">
+        <a href="#">Dashboard <span class="arrow">▶</span></a>
+        <ul class="submenu">
+          <li><a href="dashboard.html">dash board data</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Main Container -->
+    <div class="container">
+      <br><br>
+      <div class="dashboard">
         <div class="date-time">
+          <h1>Good Evening</h1>
+          <p>Welcome - Your Income & Expenses Dashboard</p>
           <p>Today: <span id="date"></span></p>
           <p>Time: <span id="time"></span></p>
         </div>
-      </header>
-
-      <div class="dashboard">
-        <div class="card"><h2>Total Income</h2><p id="total-income">₹0</p></div>
-        <div class="card"><h2>Total Expenses</h2><p id="total-expenses">₹0</p></div>
-        <div class="card"><h2>Result</h2><p id="profitOrLoss">-</p></div>
-        <div class="card"><h2>dummy data </h2><p id="avg-transaction">₹0</p></div>
-        <div class="card"><h2>dummy data</h2><p id="total-products">0</p></div>
-        <div class="card"><h2>dummy data</h2><p id="stock-alerts">0</p></div>
+     <div class="card-container">
+        <div class="card">
+          <h2>Total Income</h2>
+          <p id="total-income">₹0</p>
+        </div>
+        <div class="card">
+          <h2>Total Expenses</h2>
+          <p id="total-expenses">₹0</p>
+        </div>
+        <div class="card">
+          <h2>Result</h2>
+          <p id="profitOrLoss">-</p>
+        </div>
+        <div class="card">
+          <h2>dummy data</h2>
+          <p id="avg-transaction">₹0</p>
+        </div>
+        <div class="card">
+          <h2>dummy data</h2>
+          <p id="total-products">0</p>
+        </div>
+        <div class="card">
+          <h2>dummy data</h2>
+          <p id="stock-alerts">0</p>
+        </div>
+        </div>
       </div>
     </div>
-
-    <div class="hamburger" id="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-    <nav class="nav-menu" id="navMenu">
-      <ul>
-        <li><a href="income.html">Income</a></li>
-        <li><a href="expenses.html">Expenses</a></li>
-        <li><a href="summary.html">Summary</a></li>
-        <li><a href="dashboard.html">Dashboard</a></li>
-      </ul>
-    </nav>
 
     <script src="test.js"></script>
     <script src="shared.js"></script>
@@ -64,34 +112,36 @@
         }
       };
 
-      
-// Calculate Profit or Loss
-async function calculateProfitOrLoss() {
-  const incomeEndpoint = "http://localhost/Ei_backend/api/income.php";
-  const expensesEndpoint = "http://localhost/Ei_backend/api/expenses.php";
+      // Calculate Profit or Loss
+      async function calculateProfitOrLoss() {
+        const incomeEndpoint = "http://localhost/Ei_backend/api/income.php";
+        const expensesEndpoint = "http://localhost/Ei_backend/api/expenses.php";
 
-  const [income, expenses] = await Promise.all([
-    fetchTotal(incomeEndpoint),
-    fetchTotal(expensesEndpoint),
-  ]);
-console.log(income);
-console.log(expenses)
-  document.getElementById("total-income").textContent = `₹${income.toFixed(2)}`;
-  document.getElementById("total-expenses").textContent = `₹${expenses.toFixed(2)}`;
+        const [income, expenses] = await Promise.all([
+          fetchTotal(incomeEndpoint),
+          fetchTotal(expensesEndpoint),
+        ]);
+        console.log(income);
+        console.log(expenses);
+        document.getElementById(
+          "total-income"
+        ).textContent = `₹${income.toFixed(2)}`;
+        document.getElementById(
+          "total-expenses"
+        ).textContent = `₹${expenses.toFixed(2)}`;
 
-  const resultEl = document.getElementById("profitOrLoss");
-  if (income > expenses) {
-    resultEl.textContent = `Profit: ₹${(income - expenses).toFixed(2)}`;
-    resultEl.style.color = "green";
-  } else if (expenses > income) {
-    resultEl.textContent = `Loss: ₹${(expenses - income).toFixed(2)}`;
-    resultEl.style.color = "red";
-  } else {
-    resultEl.textContent = "Break-even";
-    resultEl.style.color = "gray";
-  }
-}
-
+        const resultEl = document.getElementById("profitOrLoss");
+        if (income > expenses) {
+          resultEl.textContent = `Profit: ₹${(income - expenses).toFixed(2)}`;
+          resultEl.style.color = "green";
+        } else if (expenses > income) {
+          resultEl.textContent = `Loss: ₹${(expenses - income).toFixed(2)}`;
+          resultEl.style.color = "red";
+        } else {
+          resultEl.textContent = "Break-even";
+          resultEl.style.color = "gray";
+        }
+      }
 
       // Logout
       const logout = () => {
@@ -101,5 +151,38 @@ console.log(expenses)
 
       document.addEventListener("DOMContentLoaded", checkAuth);
     </script>
+    <!-- JavaScript -->
+  <script>
+    const hamburger = document.getElementById("hamburger");
+    const navMenu = document.getElementById("navMenu");
+
+    // Toggle side menu
+    hamburger.addEventListener("click", () => {
+      navMenu.classList.toggle("open");
+      hamburger.classList.toggle("clicked");
+    });
+
+    // Toggle submenu and rotate arrow
+    document.querySelectorAll(".has-submenu > a").forEach(link => {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        const submenu = this.nextElementSibling;
+        submenu.classList.toggle("open");
+
+        const arrow = this.querySelector(".arrow");
+        if (arrow) arrow.classList.toggle("rotate");
+      });
+    });
+
+    // Optional: Close menu on link click (mobile)
+    document.querySelectorAll(".nav-menu .submenu a").forEach(link => {
+      link.addEventListener("click", () => {
+        navMenu.classList.remove("open");
+        hamburger.classList.remove("clicked");
+      });
+    });
+  </script>
+
+  
   </body>
 </html>
