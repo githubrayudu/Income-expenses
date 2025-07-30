@@ -26,7 +26,7 @@ async function fetchTotal(endpoint) {
     if (!res.ok) throw new Error(`Failed to fetch from ${endpoint}`);
     const data = await res.json();
     if (!Array.isArray(data)) return 0;
-    return data.reduce((sum, tx) => sum + parseFloat(tx.amount || 0), 0);
+    return data.reduce((sum, tx) => sum + parseFloat(tx.totalAmountOfProduct || 0), 0);
   } catch (err) {
     console.error(err);
     return 0;

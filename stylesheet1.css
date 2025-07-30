@@ -12,7 +12,7 @@
 } */
 
 body {
-  background: rgb(150, 159, 168);
+  background: rgb(78, 126, 173);
   color: #e5d8d8;
   margin: 0;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -210,7 +210,7 @@ footer {
 .hamburger span {
   display: block;
   height: 3px;
-  background-color: green;
+  background-color: rgb(71, 79, 71);
   border-radius: 2px;
   transition: all 0.3s ease;
 }
@@ -251,7 +251,7 @@ footer {
   justify-content: space-between;
   align-items: center;
   background-color: white;
-  color: green;
+  color: rgb(0, 0, 0);
   text-decoration: none;
   padding: 10px 15px;
   font-weight: 500;
@@ -260,7 +260,7 @@ footer {
 }
 
 .nav-menu a:hover {
-  background-color: green;
+  background-color: rgb(78, 126, 173);
   color: white;
 }
 

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Transactions</title>
+  <link rel="stylesheet" href="stylesheet1.css" />
+</head>
+<body>
+  <header>
+    <div class="top-bar">
+      <div id="profileName" class="profile-name">
+        <span id="userNameDisplay"></span>
+      </div>
+      <button class="logout-button" onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <nav class="nav-menu" id="navMenu">
+    <ul>
+      <li class="has-submenu">
+        <a href="#">Income <span class="arrow">▶</span></a>
+        <ul class="submenu">
+          <li><a href="incomedata.html">Income Data</a></li>
+          <li><a href="income.html">Edit</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu">
+        <a href="#">Expenses <span class="arrow">▶</span></a>
+        <ul class="submenu">
+          <li><a href="expensesdata.html">Expenses Data</a></li>
+          <li><a href="expenses.html">Edit</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu">
+        <a href="#">Summary <span class="arrow">▶</span></a>
+        <ul class="submenu">
+          <li><a href="summary.html">Summary</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu">
+        <a href="#">Dashboard <span class="arrow">▶</span></a>
+        <ul class="submenu">
+          <li><a href="dashboard.html">Dashboard</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <div class="left-section">
+      <h1 id="pageTitle">Transaction Data</h1>
+      <button onclick="navBack()">Back</button>
+    </div>
+
+    <div class="table-wrapper">
+      <table style="width: 100%;">
+        <thead>
+          <tr>
+            <th>Transaction Date</th>
+            <th>Transaction Type</th>
+            <th>Reviewer</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Invoice No</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Amount of Unit(₹)</th>
+              <th>Total Amount of Product(₹)</th>
+          </tr>
+        </thead>
+        <tbody id="transactionList"></tbody>
+      </table>
+    </div>
+
+    <h3>Total <span id="transactionTypeLabel">Amount</span>: ₹ <span id="balanceAmount">0</span></h3>
+  </div>
+
+  <!-- JS -->
+  <script>
+    // Auth check
+    const checkAuth = () => {
+      const loggedIn = localStorage.getItem("loggedin");
+      if (loggedIn) {
+        const username = localStorage.getItem("username");
+        document.getElementById("profileName").style.display = "block";
+        document.getElementById("userNameDisplay").textContent = username;
+      } else {
+        window.location.href = "index.html";
+      }
+    };
+
+    checkAuth();
+
+    const logout = () => {
+      localStorage.removeItem("loggedin");
+      window.location.href = "index.html";
+    };
+
+    function navBack() {
+      window.location.href = 'dashboard.html';
+    }
+
+    // Menu toggling
+    const hamburger = document.getElementById("hamburger");
+    const navMenu = document.getElementById("navMenu");
+
+    hamburger.addEventListener("click", () => {
+      navMenu.classList.toggle("open");
+      hamburger.classList.toggle("clicked");
+    });
+
+    document.querySelectorAll(".has-submenu > a").forEach(link => {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        this.nextElementSibling.classList.toggle("open");
+        this.querySelector(".arrow").classList.toggle("rotate");
+      });
+    });
+
+    document.querySelectorAll(".nav-menu .submenu a").forEach(link => {
+      link.addEventListener("click", () => {
+        navMenu.classList.remove("open");
+        hamburger.classList.remove("clicked");
+      });
+    });
+
+    // Load transaction data
+    document.addEventListener("DOMContentLoaded", () => {
+      const queryParams = new URLSearchParams(window.location.search);
+      const type = queryParams.get("type") || "expenses"; // Default to income
+
+      document.getElementById("pageTitle").textContent = `${type.charAt(0).toUpperCase() + type.slice(1)} Transactions`;
+      document.getElementById("transactionTypeLabel").textContent = type.charAt(0).toUpperCase() + type.slice(1);
+
+      const endpoint = `http://localhost/Ei_backend/api/${type}.php`;
+      const transactionList = document.getElementById("transactionList");
+      const balanceAmountSpan = document.getElementById("balanceAmount");
+
+      async function fetchTransactions() {
+        try {
+          const res = await fetch(endpoint);
+          if (!res.ok) throw new Error(`Failed to fetch ${type} transactions`);
+
+          const data = await res.json();
+          transactionList.innerHTML = '';
+          let total = 0;
+
+          if (Array.isArray(data) && data.length > 0) {
+            data.forEach(tx => {
+              const row = document.createElement("tr");
+              row.innerHTML = `
+                <td>${new Date(tx.dateInsertedIntoDataBase).toLocaleDateString()}</td>
+                <td>${type}</td>
+                <td>${tx.reviewer}</td>
+                <td>${tx.category}</td>
+                <td>${tx.description}</td>
+                <td>${tx.invoiceNo}</td>
+                <td>${tx.productName}</td>
+                <td>${tx.quantity}</td>
+                <td>${parseFloat(tx.amount)}</td>
+            <td>${(parseFloat(tx.quantity) * parseFloat(tx.amount)).toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+              transactionList.appendChild(row);
+              total += parseFloat(tx.quantity) * parseFloat(tx.amount);
+            });
+          } else {
+            const row = document.createElement("tr");
+            row.innerHTML = `<td colspan="9">No ${type} transactions found.</td>`;
+            transactionList.appendChild(row);
+          }
+
+          balanceAmountSpan.textContent = total.toFixed(2);
+        } catch (err) {
+          console.error(`Error fetching ${type} transactions:`, err);
+          alert(`Error loading ${type}: ` + err.message);
+        }
+      }
+
+      fetchTransactions();
+    });
+  </script>
+</body>
+</html>

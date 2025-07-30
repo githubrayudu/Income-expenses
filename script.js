@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
           row.innerHTML = `
           <td>${new Date(tx.dateInsertedIntoDataBase).toLocaleDateString()}</td>
           <td>${type}</td><td>${tx.reviewer}</td><td>${tx.category}</td><td>${tx.description}</td>
-          <td>${tx.invoiceNo}</td><td>${tx.productName}</td><td>${tx.quantity}</td>
+          <td>${tx.invoiceNo}</td><td>${tx.productName}</td><td>${tx.quantity}</td><td>${parseFloat(tx.amount)}</td>
             <td>${(parseFloat(tx.quantity) * parseFloat(tx.amount)).toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
           
             <td><button class="delete-btn" data-id="${tx.id}">Delete</button></td>`;
@@ -140,7 +140,8 @@ document.addEventListener("DOMContentLoaded", () => {
         invoiceNo: inputs.invoiceNoInput.value,
         productName: inputs.productNameInput.value,
         quantity: parseInt(inputs.quantityInput.value),
-        amount: parseFloat(inputs.amountInput.value)
+         amount: parseFloat(inputs.amountInput.value),
+         totalAmountOfProduct: parseInt(inputs.quantityInput.value) * parseFloat(inputs.amountInput.value)
       };
       //Prevents submission if any required field is missing or invalid.
       if (

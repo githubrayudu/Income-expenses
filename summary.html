@@ -24,38 +24,37 @@
   </div>
 
   <!-- Navigation Menu -->
-  <nav class="nav-menu" id="navMenu">
+ <nav class="nav-menu" id="navMenu">
     <ul>
       <li class="has-submenu">
         <a href="#">Income <span class="arrow">▶</span></a>
         <ul class="submenu">
-          <li><a href="income.html">income data</a></li>
-          <li><a href="income.html">add Income</a></li>
-          <li><a href="income.html">Yearly</a></li>
+          <li><a href="incomedata.html">Income Data</a></li>
+          <li><a href="income.html">Edit</a></li>
         </ul>
       </li>
       <li class="has-submenu">
         <a href="#">Expenses <span class="arrow">▶</span></a>
         <ul class="submenu">
-          <li><a href="expenses.html">expenses data</a></li>
-          <li><a href="expenses.html">add Expenses</a></li>
-          <li><a href="expenses.html">Yearly</a></li>
+          <li><a href="expensesdata.html">Expenses Data</a></li>
+          <li><a href="expenses.html">Edit</a></li>
         </ul>
       </li>
       <li class="has-submenu">
         <a href="#">Summary <span class="arrow">▶</span></a>
         <ul class="submenu">
-          <li><a href="summary.html">summary</a></li>
+          <li><a href="summary.html">Summary</a></li>
         </ul>
       </li>
       <li class="has-submenu">
         <a href="#">Dashboard <span class="arrow">▶</span></a>
         <ul class="submenu">
-          <li><a href="dashboard.html">dash board data</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
         </ul>
       </li>
     </ul>
   </nav>
+
 
   <!-- Main Content -->
   <div class="container">
@@ -111,7 +110,7 @@
         if (!res.ok) throw new Error(`Failed to fetch from ${endpoint}`);
         const data = await res.json();
         if (!Array.isArray(data)) return 0;
-        return data.reduce((sum, tx) => sum + parseFloat(tx.amount || 0), 0);
+        return data.reduce((sum, tx) => sum + parseFloat(tx.totalAmountOfProduct || 0), 0);
       } catch (err) {
         console.error(err);
         return 0;
