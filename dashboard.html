@@ -17,49 +17,48 @@
       </div>
     </header>
 
-      <!-- Hamburger Button -->
-  <div class="hamburger" id="hamburger">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
+    <!-- Hamburger Button -->
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
 
-  <!-- Navigation Menu -->
- <nav class="nav-menu" id="navMenu">
-    <ul>
-      <li class="has-submenu">
-        <a href="#">Income <span class="arrow">▶</span></a>
-        <ul class="submenu">
-          <li><a href="incomedata.html">Income Data</a></li>
-          <li><a href="income.html">Edit</a></li>
-        </ul>
-      </li>
-      <li class="has-submenu">
-        <a href="#">Expenses <span class="arrow">▶</span></a>
-        <ul class="submenu">
-          <li><a href="expensesdata.html">Expenses Data</a></li>
-          <li><a href="expenses.html">Edit</a></li>
-        </ul>
-      </li>
-      <li class="has-submenu">
-        <a href="#">Summary <span class="arrow">▶</span></a>
-        <ul class="submenu">
-          <li><a href="summary.html">Summary</a></li>
-        </ul>
-      </li>
-      <li class="has-submenu">
-        <a href="#">Dashboard <span class="arrow">▶</span></a>
-        <ul class="submenu">
-          <li><a href="dashboard.html">Dashboard</a></li>
-        </ul>
-      </li>
-    </ul>
-  </nav>
+    <!-- Navigation Menu -->
+    <nav class="nav-menu" id="navMenu">
+      <ul>
+        <li class="has-submenu">
+          <a href="#">Income <span class="arrow">▶</span></a>
+          <ul class="submenu">
+            <li><a href="incomedata.html">Income Data</a></li>
+            <li><a href="income.html">Edit</a></li>
+          </ul>
+        </li>
+        <li class="has-submenu">
+          <a href="#">Expenses <span class="arrow">▶</span></a>
+          <ul class="submenu">
+            <li><a href="expensesdata.html">Expenses Data</a></li>
+            <li><a href="expenses.html">Edit</a></li>
+          </ul>
+        </li>
+        <li class="has-submenu">
+          <a href="#">Summary <span class="arrow">▶</span></a>
+          <ul class="submenu">
+            <li><a href="summary.html">Summary</a></li>
+          </ul>
+        </li>
+        <li class="has-submenu">
+          <a href="#">Dashboard <span class="arrow">▶</span></a>
+          <ul class="submenu">
+            <li><a href="dashboard.html">Dashboard</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
 
-
-  <!-- Main Container -->
+    <!-- Main Container -->
     <div class="container">
-      <br><br>
+      <br /><br />
       <div class="dashboard">
         <div class="date-time">
           <h1>Good Evening</h1>
@@ -67,31 +66,31 @@
           <p>Today: <span id="date"></span></p>
           <p>Time: <span id="time"></span></p>
         </div>
-     <div class="card-container">
-        <div class="card">
-          <h2>Total Income</h2>
-          <p id="total-income">₹0</p>
-        </div>
-        <div class="card">
-          <h2>Total Expenses</h2>
-          <p id="total-expenses">₹0</p>
-        </div>
-        <div class="card">
-          <h2>Result</h2>
-          <p id="profitOrLoss">-</p>
-        </div>
-        <div class="card">
-          <h2>dummy data</h2>
-          <p id="avg-transaction">₹0</p>
-        </div>
-        <div class="card">
-          <h2>dummy data</h2>
-          <p id="total-products">0</p>
-        </div>
-        <div class="card">
-          <h2>dummy data</h2>
-          <p id="stock-alerts">0</p>
-        </div>
+        <div class="card-container">
+          <div class="card">
+            <h2>Total Income</h2>
+            <p id="total-income">₹0</p>
+          </div>
+          <div class="card">
+            <h2>Total Expenses</h2>
+            <p id="total-expenses">₹0</p>
+          </div>
+          <div class="card">
+            <h2>Result</h2>
+            <p id="profitOrLoss">-</p>
+          </div>
+          <div class="card">
+            <h2>dummy data</h2>
+            <p id="avg-transaction">₹0</p>
+          </div>
+          <div class="card">
+            <h2>dummy data</h2>
+            <p id="total-products">0</p>
+          </div>
+          <div class="card">
+            <h2>dummy data</h2>
+            <p id="stock-alerts">0</p>
+          </div>
         </div>
       </div>
     </div>
@@ -151,37 +150,35 @@
       document.addEventListener("DOMContentLoaded", checkAuth);
     </script>
     <!-- JavaScript -->
-  <script>
-    const hamburger = document.getElementById("hamburger");
-    const navMenu = document.getElementById("navMenu");
+    <script>
+      const hamburger = document.getElementById("hamburger");
+      const navMenu = document.getElementById("navMenu");
 
-    // Toggle side menu
-    hamburger.addEventListener("click", () => {
-      navMenu.classList.toggle("open");
-      hamburger.classList.toggle("clicked");
-    });
-
-    // Toggle submenu and rotate arrow
-    document.querySelectorAll(".has-submenu > a").forEach(link => {
-      link.addEventListener("click", function (e) {
-        e.preventDefault();
-        const submenu = this.nextElementSibling;
-        submenu.classList.toggle("open");
-
-        const arrow = this.querySelector(".arrow");
-        if (arrow) arrow.classList.toggle("rotate");
+      // Toggle side menu
+      hamburger.addEventListener("click", () => {
+        navMenu.classList.toggle("open");
+        hamburger.classList.toggle("clicked");
       });
-    });
 
-    // Optional: Close menu on link click (mobile)
-    document.querySelectorAll(".nav-menu .submenu a").forEach(link => {
-      link.addEventListener("click", () => {
-        navMenu.classList.remove("open");
-        hamburger.classList.remove("clicked");
+      // Toggle submenu and rotate arrow
+      document.querySelectorAll(".has-submenu > a").forEach((link) => {
+        link.addEventListener("click", function (e) {
+          e.preventDefault();
+          const submenu = this.nextElementSibling;
+          submenu.classList.toggle("open");
+
+          const arrow = this.querySelector(".arrow");
+          if (arrow) arrow.classList.toggle("rotate");
+        });
       });
-    });
-  </script>
 
-  
+      // Optional: Close menu on link click (mobile)
+      document.querySelectorAll(".nav-menu .submenu a").forEach((link) => {
+        link.addEventListener("click", () => {
+          navMenu.classList.remove("open");
+          hamburger.classList.remove("clicked");
+        });
+      });
+    </script>
   </body>
 </html>

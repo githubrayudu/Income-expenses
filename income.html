@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Income</title>
     <link rel="stylesheet" href="stylesheet1.css">
+    <script src="script.js" defer ></script>
+ 
 </head>
 
 <body>
@@ -13,7 +15,7 @@
      <!-- Top bar and logout button -->
       <div class="top-bar">
         <!-- Profile name (will be displayed once user logs in) -->
-    <div id="profileName" class="profile-name" style="display:outside;">
+    <div id="profileName" class="profile-name" style="display:none;">
       <span id="userNameDisplay"></span>
     </div>
         <button class="logout-button" onclick="logout()">Logout</button>
@@ -65,11 +67,23 @@
                   <h1>Income Transactions</h1>
             <button onclick="navBack()">Back</button>
         </div>
-        <div>
-                  <h3>Search category:</h3>
-  <input type="text" id="searchBox" placeholder="Type to search...">
-  <ul id="results"></ul>    
+        <div class = "search-wrapper">
+                  <label for  = "search">Search invoiceNo</label>
+  <input type="search" id="searchBox" placeholder="Type to search...">
         </div>
+
+        <div class = " user-cards"></div>
+         <template data-user-templ>
+  <div class="search-card">
+    <div class="header"></div>
+    <div class="body"></div>
+  </div>
+</template>
+
+            
+           
+            </div>
+            </div>
 <div class="right-section">
         <h2>Add Income </h2>
         <form id="transactionForm" action="#">
@@ -85,32 +99,33 @@
             <button type="submit">Submit</button>
         </form>
         <h2>Transaction History</h2>
-        <div class="table-wrapper">
-            <table id="transactions" style="width: 100%;">
-                <thead>
-                    <tr>
-                        <th>Transaction Date</th>
-                        <th>Transaction Type</th>
-                        <th>Reviewer</th>
-                        <th>Category</th>
-                        <th>Description</th>
-                        <th>Invoice No</th>
-                        <th>Product Name</th>
-                        <th>Quantity</th>
-                       <th>Amount of Unit(₹)</th>
-              <th>Total Amount of Product(₹)</th>
-                    </tr>
-                </thead>
-                </div>
-                <tbody id="transactionList">
-                </tbody>
-            </table>
+    <div class="table-wrapper">
+  <table id="transactions" style="width: 100%;">
+    <thead>
+      <tr>
+        <th>Transaction Date</th>
+        <th>Transaction Type</th>
+        <th>Reviewer</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Invoice No</th>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th>Amount of Unit(₹)</th>
+        <th>Total Amount of Product(₹)</th>
+      </tr>
+    </thead>
+    <tbody id="transactionList">
+    </tbody>
+  </table>
+</div>
+
         </div>
-        </div>
+        
         <h3>Total Income : Rs <span id="balanceAmount">0</span></h3>
 
 
-          <script src="script.js"></script>
+          
          <script>
           // Check if the user is logged in
       const checkAuth = () => {
