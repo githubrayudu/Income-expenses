@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Running Time</title>
+  <style>
+    #clock {
+      position: fixed;
+      top: 10px;
+      right: 20px;
+      font-size: 16px;
+      font-family: Arial, sans-serif;
+      color: #333;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 5px 10px;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+<div id="clock">Loading...</div>
+
+<script>
+  function updateClock() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString(); // e.g., "14:03:45"
+    document.getElementById('clock').textContent = timeString;
+  }
+
+  setInterval(updateClock, 1000); // Update every second
+  updateClock(); // Initial call
+</script>
+
+</body>
+</html>

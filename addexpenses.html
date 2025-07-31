@@ -27,36 +27,38 @@
   </div>
 
   <!-- Navigation Menu -->
- <nav class="nav-menu" id="navMenu">
-    <ul>
-      <li class="has-submenu">
-        <a href="#">Income <span class="arrow">▶</span></a>
-        <ul class="submenu">
-          <li><a href="incomedata.html">Income Data</a></li>
-          <li><a href="income.html">Edit</a></li>
-        </ul>
-      </li>
-      <li class="has-submenu">
-        <a href="#">Expenses <span class="arrow">▶</span></a>
-        <ul class="submenu">
-          <li><a href="expensesdata.html">Expenses Data</a></li>
-          <li><a href="expenses.html">Edit</a></li>
-        </ul>
-      </li>
-      <li class="has-submenu">
-        <a href="#">Summary <span class="arrow">▶</span></a>
-        <ul class="submenu">
-          <li><a href="summary.html">Summary</a></li>
-        </ul>
-      </li>
-      <li class="has-submenu">
-        <a href="#">Dashboard <span class="arrow">▶</span></a>
-        <ul class="submenu">
-          <li><a href="dashboard.html">Dashboard</a></li>
-        </ul>
-      </li>
-    </ul>
-  </nav>
+    <nav class="nav-menu" id="navMenu">
+      <ul>
+        <li class="has-submenu">
+          <a href="#">Income <span class="arrow">▶</span></a>
+          <ul class="submenu">
+            <li><a href="incomedata.html">Income Data</a></li>
+            <li><a href="addIncome.html">Add Income</a></li>
+            <li><a href="editIncome.html">Edit Income</a></li>
+          </ul>
+        </li>
+        <li class="has-submenu">
+          <a href="#">Expenses <span class="arrow">▶</span></a>
+          <ul class="submenu">
+            <li><a href="expensesdata.html">Expenses Data</a></li>
+            <li><a href="addexpenses.html">Add Expenses</a></li>
+             <li><a href="editExpenses.html">Edit Expenses</a></li>
+          </ul>
+        </li>
+        <li class="has-submenu">
+          <a href="#">Summary <span class="arrow">▶</span></a>
+          <ul class="submenu">
+            <li><a href="summary.html">Summary</a></li>
+          </ul>
+        </li>
+        <li class="has-submenu">
+          <a href="#">Dashboard <span class="arrow">▶</span></a>
+          <ul class="submenu">
+            <li><a href="dashboard.html">Dashboard</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
 
 
   <!-- Main Container -->
@@ -73,7 +75,7 @@
         </div>
 
     <div class="right-section">
-      <h2>Add Expense</h2>
+      <h2>Add expenses</h2>
       <form id="transactionForm" action="#">
         <input type="date" id="dateOfTransaction" required />
         <input type="text" id="reviewer" placeholder="Reviewer" required />
@@ -102,6 +104,7 @@
               <th>Quantity</th>
               <th>Amount of Unit(₹)</th>
               <th>Total Amount of Product(₹)</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody id="transactionList"></tbody>

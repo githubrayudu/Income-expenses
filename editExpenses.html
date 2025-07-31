@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Income</title>
+    <title>Expense</title>
     <link rel="stylesheet" href="stylesheet1.css">
-    <script src="script.js" defer ></script>
+    <script src="script2.js" defer ></script>
  
 </head>
 
@@ -35,14 +35,16 @@
         <a href="#">Income <span class="arrow">▶</span></a>
         <ul class="submenu">
           <li><a href="incomedata.html">Income Data</a></li>
-          <li><a href="income.html">Edit</a></li>
+          <li><a href="addIncome.html">Add Income</a></li>
+          <li><a href="editIncome.html">Edit Income</a></li>
         </ul>
       </li>
       <li class="has-submenu">
         <a href="#">Expenses <span class="arrow">▶</span></a>
         <ul class="submenu">
           <li><a href="expensesdata.html">Expenses Data</a></li>
-          <li><a href="expenses.html">Edit</a></li>
+          <li><a href="addexpenses.html">Add Expenses</a></li>
+          <li><a href="editExpenses.html">Edit Expenses</a></li>
         </ul>
       </li>
       <li class="has-submenu">
@@ -64,7 +66,7 @@
   <!-- Main Container -->
     <div class="container">
         <div class="left-section">
-                  <h1>Income Transactions</h1>
+                <h1>Edit Expenses </h1>
             <button onclick="navBack()">Back</button>
         </div>
         <div class = "search-wrapper">
@@ -85,7 +87,7 @@
             </div>
             </div>
 <div class="right-section">
-        <h2>Add Income </h2>
+        
         <form id="transactionForm" action="#">
             <input type="date" id="dateOfTransaction" placeholder="Date" required />
             <input type="text" id="reviewer" placeholder="Reviewer" required />
@@ -95,8 +97,8 @@
             <input type="text" id="productName" placeholder="Product Name" required />
             <input type="number" id="quantity" placeholder="Quantity" required />
             <input type="number" id="amount" placeholder=" Amount of Unit" required />
-            <input type="hidden" id="type" value="income" />
-            <button type="submit">Submit</button>
+            <input type="hidden" id="type" value="expenses" />
+            <button type="submit">Update</button>
         </form>
         <h2>Transaction History</h2>
     <div class="table-wrapper">
@@ -113,6 +115,7 @@
         <th>Quantity</th>
         <th>Amount of Unit(₹)</th>
         <th>Total Amount of Product(₹)</th>
+         <th>Actions</th>
       </tr>
     </thead>
     <tbody id="transactionList">
@@ -122,11 +125,14 @@
 
         </div>
         
-        <h3>Total Income : Rs <span id="balanceAmount">0</span></h3>
+        <h3>Total Expenses : Rs <span id="balanceAmount">0</span></h3>
 
 
           
          <script>
+
+
+
           // Check if the user is logged in
       const checkAuth = () => {
         const loggedIn = localStorage.getItem("loggedin");

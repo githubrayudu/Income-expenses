@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Income</title>
+    <link rel="stylesheet" href="stylesheet1.css">
+    <script src="script.js" defer ></script>
+ 
+</head>
+
+<body>
+  <header>
+     <!-- Top bar and logout button -->
+      <div class="top-bar">
+        <!-- Profile name (will be displayed once user logs in) -->
+    <div id="profileName" class="profile-name" style="display:none;">
+      <span id="userNameDisplay"></span>
+    </div>
+        <button class="logout-button" onclick="logout()">Logout</button>
+      </div>
+    </header>
+  <!-- Hamburger Button -->
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <!-- Navigation Menu -->
+    <nav class="nav-menu" id="navMenu">
+      <ul>
+        <li class="has-submenu">
+          <a href="#">Income <span class="arrow">▶</span></a>
+          <ul class="submenu">
+            <li><a href="incomedata.html">Income Data</a></li>
+            <li><a href="addIncome.html">Add Income</a></li>
+            <li><a href="editIncome.html">Edit Income</a></li>
+          </ul>
+        </li>
+        <li class="has-submenu">
+          <a href="#">Expenses <span class="arrow">▶</span></a>
+          <ul class="submenu">
+            <li><a href="expensesdata.html">Expenses Data</a></li>
+            <li><a href="addexpenses.html">Add Expenses</a></li>
+             <li><a href="editExpenses.html">Edit Expenses</a></li>
+          </ul>
+        </li>
+        <li class="has-submenu">
+          <a href="#">Summary <span class="arrow">▶</span></a>
+          <ul class="submenu">
+            <li><a href="summary.html">Summary</a></li>
+          </ul>
+        </li>
+        <li class="has-submenu">
+          <a href="#">Dashboard <span class="arrow">▶</span></a>
+          <ul class="submenu">
+            <li><a href="dashboard.html">Dashboard</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+
+  <!-- Main Container -->
+    <div class="container">
+        <div class="left-section">
+                  <h1>Add Income </h1>
+            <button onclick="navBack()">Back</button>
+        </div>
+        <div class = "search-wrapper">
+                  <label for  = "search">Search invoiceNo</label>
+  <input type="search" id="searchBox" placeholder="Type to search...">
+        </div>
+
+        <div class = " user-cards"></div>
+         <template data-user-templ>
+  <div class="search-card">
+    <div class="header"></div>
+    <div class="body"></div>
+  </div>
+</template>
+
+            
+           
+            </div>
+            </div>
+<div class="right-section">
+        
+        <form id="transactionForm" action="#">
+            <input type="date" id="dateOfTransaction" placeholder="Date" required />
+            <input type="text" id="reviewer" placeholder="Reviewer" required />
+            <input type="text" id="category" placeholder="Category" required />
+            <input type="text" id="description" placeholder="Description" required />
+            <input type="text" id="invoiceNo" placeholder="Invoice NO" required />
+            <input type="text" id="productName" placeholder="Product Name" required />
+            <input type="number" id="quantity" placeholder="Quantity" required />
+            <input type="number" id="amount" placeholder=" Amount of Unit" required />
+            <input type="hidden" id="type" value="income" />
+            <button type="submit">Submit</button>
+        </form>
+        <h2>Transaction History</h2>
+    <div class="table-wrapper">
+  <table id="transactions" style="width: 100%;">
+    <thead>
+      <tr>
+        <th>Transaction Date</th>
+        <th>Transaction Type</th>
+        <th>Reviewer</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Invoice No</th>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th>Amount of Unit(₹)</th>
+        <th>Total Amount of Product(₹)</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="transactionList">
+    </tbody>
+  </table>
+</div>
+
+        </div>
+        
+        <h3>Total Income : Rs <span id="balanceAmount">0</span></h3>
+
+
+          
+         <script>
+          // Check if the user is logged in
+      const checkAuth = () => {
+        const loggedIn = localStorage.getItem("loggedin");
+        if (loggedIn) {
+          const username = localStorage.getItem("username");
+          // Display profile name at the top right
+          document.getElementById("profileName").style.display = "block";
+          document.getElementById("userNameDisplay").textContent = username;
+        } else {
+          window.location.href = "index.html"; // Redirect to login if not logged in
+        }
+      };
+        checkAuth();
+    function navBack() {
+      window.location.href = 'dashboard.html';
+    }
+ 
+logout = () => {
+        localStorage.removeItem("loggedin");
+        window.location.href = "index.html";
+      };
+
+
+    //back function script 
+    checkAuth();
+    
+  </script>
+        
+  <!-- JavaScript -->
+  <script>
+    const hamburger = document.getElementById("hamburger");
+    const navMenu = document.getElementById("navMenu");
+
+    // Toggle side menu
+    hamburger.addEventListener("click", () => {
+      navMenu.classList.toggle("open");
+      hamburger.classList.toggle("clicked");
+    });
+
+    // Toggle submenu and rotate arrow
+    document.querySelectorAll(".has-submenu > a").forEach(link => {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        const submenu = this.nextElementSibling;
+        submenu.classList.toggle("open");
+
+        const arrow = this.querySelector(".arrow");
+        if (arrow) arrow.classList.toggle("rotate");
+      });
+    });
+
+    // Optional: Close menu on link click (mobile)
+    document.querySelectorAll(".nav-menu .submenu a").forEach(link => {
+      link.addEventListener("click", () => {
+        navMenu.classList.remove("open");
+        hamburger.classList.remove("clicked");
+      });
+    });
+  </script>
+
+
+       
+</body>

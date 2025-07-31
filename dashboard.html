@@ -8,13 +8,20 @@
   </head>
   <body>
     <header>
+     
       <!-- Top bar and logout button -->
       <div class="top-bar">
+          <!-- timer or clock in the top right corner  -->
+      <div id="clock">Loading...</div>
+        <!-- profile name  -->
         <div id="profileName" class="profile-name" style="display: none">
           <span id="userNameDisplay"></span>
         </div>
+        <!-- logout button  -->
         <button class="logout-button" onclick="logout()">Logout</button>
       </div>
+
+     
     </header>
 
     <!-- Hamburger Button -->
@@ -31,14 +38,16 @@
           <a href="#">Income <span class="arrow">▶</span></a>
           <ul class="submenu">
             <li><a href="incomedata.html">Income Data</a></li>
-            <li><a href="income.html">Edit</a></li>
+            <li><a href="addIncome.html">Add Income</a></li>
+            <li><a href="editIncome.html">Edit Income</a></li>
           </ul>
         </li>
         <li class="has-submenu">
           <a href="#">Expenses <span class="arrow">▶</span></a>
           <ul class="submenu">
             <li><a href="expensesdata.html">Expenses Data</a></li>
-            <li><a href="expenses.html">Edit</a></li>
+            <li><a href="addexpenses.html">Add Expenses</a></li>
+            <li><a href="editExpenses.html">Edit Expenses</a></li>
           </ul>
         </li>
         <li class="has-submenu">
@@ -94,9 +103,10 @@
         </div>
       </div>
     </div>
-
+<script src = "script.js"></script>
     <script src="test.js"></script>
     <script src="shared.js"></script>
+    
     <script>
       // Authentication check
       const checkAuth = () => {
