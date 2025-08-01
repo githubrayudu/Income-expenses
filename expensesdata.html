@@ -5,16 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Transactions</title>
   <link rel="stylesheet" href="stylesheet1.css" />
+    <script src="shared.js" defer ></script>
+  <script src="script.js" defer ></script>
 </head>
 <body>
-  <header>
-    <div class="top-bar">
-      <div id="profileName" class="profile-name">
-        <span id="userNameDisplay"></span>
-      </div>
-      <button class="logout-button" onclick="logout()">Logout</button>
+   <header>
+     <!-- Top bar and logout button -->
+      <div class="top-bar">
+        <!-- timer or clock in the top right corner  -->
+      <div id="clock">Loading...</div>
+        <!-- Profile name (will be displayed once user logs in) -->
+    <div id="profileName" class="profile-name" style="display:none;">
+      <span id="userNameDisplay"></span>
     </div>
-  </header>
+        <button class="logout-button" onclick="logout()">Logout</button>
+      </div>
+    </header>
   
   <!-- Hamburger Button -->
   <div class="hamburger" id="hamburger">

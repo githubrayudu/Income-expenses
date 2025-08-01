@@ -1,4 +1,45 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+
+// Clock update function
+  function updateClock() {
+    const now = new Date();
+
+    const day = now.getDate().toString().padStart(2, "0");
+    const monthNames = [
+      "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+    ];
+    const month = monthNames[now.getMonth()];
+    const year = now.getFullYear();
+
+    let hours = now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2, "0");
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // Fix hour '0' to 12
+
+    const time = `${hours.toString().padStart(2, "0")}:${minutes} ${ampm}`;
+    const formatted = `${day} ${month} ${year} ${time}`;
+
+    // Update clock element
+    const clockElement = document.getElementById("clock");
+    if (clockElement) {
+      clockElement.textContent = formatted;
+    }
+  }
+
+  // Call updateClock immediately and set interval to update every second
+  setInterval(updateClock, 1000);  // Update every second
+  updateClock();  // Initialize clock immediately
+
+
+
+
+
+
+
+
+
   const form = document.getElementById("transactionForm");
   const type = document.getElementById("type").value; // 'income' or 'expenses'
   const endpoint = `http://localhost/Ei_backend/api/${type}.php`;

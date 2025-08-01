@@ -4,7 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
+    
     <link rel="stylesheet" href="stylesheet1.css" />
+
   </head>
   <body>
     <header>
@@ -103,22 +105,13 @@
         </div>
       </div>
     </div>
-<script src = "script.js"></script>
+    <script scr="script.js"></script>
     <script src="test.js"></script>
     <script src="shared.js"></script>
     
+    
     <script>
-      // Authentication check
-      const checkAuth = () => {
-        const loggedIn = localStorage.getItem("loggedin");
-        if (loggedIn) {
-          const username = localStorage.getItem("username");
-          document.getElementById("profileName").style.display = "block";
-          document.getElementById("userNameDisplay").textContent = username;
-        } else {
-          window.location.href = "index.html";
-        }
-      };
+      
 
       // Calculate Profit or Loss
       async function calculateProfitOrLoss() {
