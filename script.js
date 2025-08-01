@@ -32,17 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-  // Other functions in your code (such as the Auth and Profit/Loss calculation)
-  const checkAuth = () => {
-    const loggedIn = localStorage.getItem("loggedin");
-    if (loggedIn) {
-      const username = localStorage.getItem("username");
-      document.getElementById("profileName").style.display = "block";
-      document.getElementById("userNameDisplay").textContent = username;
-    } else {
-      window.location.href = "index.html";
-    }
-  };
 
 
 
@@ -239,6 +228,22 @@ row.appendChild(cell);
     updateClock();  // Initial call to set the time immediately
 });
 
+
+
+
+//Get unique values  for the desired colums 
+function getUniqueValueFromColumn(){
+var unique_col_values_dict ={}
+allFilters =
+
+}
+
+
+// Add <option> tags to the desired colums based on unique values 
+
+
+
+//Create filter_rows () function
 
 
 
