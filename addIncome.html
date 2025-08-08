@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Income</title>
+    <title>Add Income</title>
     <link rel="stylesheet" href="stylesheet1.css">
-    <script src="script.js" defer ></script>
+      <script src="shared.js" defer></script>
+    <script src="script2.js" defer ></script>
  
 </head>
 
@@ -20,7 +21,7 @@
     <div id="profileName" class="profile-name" style="display:none;">
       <span id="userNameDisplay"></span>
     </div>
-        <button class="logout-button" onclick="logout()">Logout</button>
+        <button id="logoutButton"class="logout-button" onclick="handleLogout()">Logout</button>
       </div>
     </header>
   <!-- Hamburger Button -->
@@ -63,8 +64,6 @@
         </li>
       </ul>
     </nav>
-
-
   <!-- Main Container -->
     <div class="container">
         <div class="left-section">
@@ -72,10 +71,9 @@
             <button onclick="navBack()">Back</button>
         </div>
         <div class = "search-wrapper">
-                  <label for  = "search">Search invoiceNo</label>
-  <input type="search" id="searchBox" placeholder="Type to search...">
+                  <label for  = "search">Search</label>
+                  <input type="search" id="searchBox" placeholder="Type to search...">
         </div>
-
         <div class = " user-cards"></div>
          <template data-user-templ>
   <div class="search-card">
@@ -83,18 +81,17 @@
     <div class="body"></div>
   </div>
 </template>
-            </div>
-            </div>
+            
+            
 <div class="right-section">
-        
         <form id="transactionForm" action="#">
             <input type="date" id="dateOfTransaction" placeholder="Date" required />
-            <input type="text" id="reviewer" placeholder="Reviewer" required />
-            <input type="text" id="category" placeholder="Category" required />
-            <input type="text" id="description" placeholder="Description" required />
-            <input type="text" id="invoiceNo" placeholder="Invoice NO" required />
-            <input type="text" id="productName" placeholder="Product Name" required />
-            <input type="number" id="quantity" placeholder="Quantity" required />
+            <input type="text" id="reviewer" placeholder="Reviewer" maxlength="20" required />
+            <input type="text" id="category" placeholder="Category" maxlength="20" required />
+            <input type="text" id="description" placeholder="Description" maxlength="30" />
+            <input type="text" id="invoiceNo" placeholder="Invoice NO" maxlength="20" required />
+            <input type="text" id="productName" placeholder="Product Name"maxlength="20" required />
+            <input type="number" id="quantity" placeholder="Quantity"  required />
             <input type="number" id="amount" placeholder=" Amount of Unit" required />
             <input type="hidden" id="type" value="income" />
             <button type="submit">Submit</button>
@@ -121,40 +118,17 @@
     </tbody>
   </table>
 </div>
-
-        </div>
-        
+</div>
+</div>
         <h3>Total Income : Rs <span id="balanceAmount">0</span></h3>
 
-
-          
+         
          <script>
-          // Check if the user is logged in
-      const checkAuth = () => {
-        const loggedIn = localStorage.getItem("loggedin");
-        if (loggedIn) {
-          const username = localStorage.getItem("username");
-          // Display profile name at the top right
-          document.getElementById("profileName").style.display = "block";
-          document.getElementById("userNameDisplay").textContent = username;
-        } else {
-          window.location.href = "index.html"; // Redirect to login if not logged in
-        }
-      };
-        checkAuth();
+
     function navBack() {
       window.location.href = 'dashboard.html';
     }
- 
-logout = () => {
-        localStorage.removeItem("loggedin");
-        window.location.href = "index.html";
-      };
-
-
     //back function script 
-    checkAuth();
-    
   </script>
         
   <!-- JavaScript -->
@@ -192,3 +166,4 @@ logout = () => {
 
        
 </body>
+</html>

@@ -4,27 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
-    
-    <link rel="stylesheet" href="stylesheet1.css" />
 
+    <link rel="stylesheet" href="stylesheet1.css" />
+   <script src="shared.js" defer></script>
   </head>
   <body>
-    <header>
-     
+ <header>
       <!-- Top bar and logout button -->
       <div class="top-bar">
           <!-- timer or clock in the top right corner  -->
       <div id="clock">Loading...</div>
-        <!-- profile name  -->
-        <div id="profileName" class="profile-name" style="display: none">
-          <span id="userNameDisplay"></span>
-        </div>
-        <!-- logout button  -->
-        <button class="logout-button" onclick="logout()">Logout</button>
+        <!-- Profile name (will be displayed once user logs in) -->
+    <div id="profileName" class="profile-name" style="display:outside;">
+      <span id="userNameDisplay"></span>
+    </div>
+        <button id="logoutButton"class="logout-button" onclick="handleLogout()">Logout</button>
       </div>
-
-     
-    </header>
+      </header>
 
     <!-- Hamburger Button -->
     <div class="hamburger" id="hamburger">
@@ -72,7 +68,8 @@
       <br /><br />
       <div class="dashboard">
         <div class="date-time">
-          <h1>Good Evening</h1>
+          <!-- <h1>Good Evening</h1> -->
+          <h1><span id="greeting"></span></h1>
           <p>Welcome - Your Income & Expenses Dashboard</p>
           <p>Today: <span id="date"></span></p>
           <p>Time: <span id="time"></span></p>
@@ -105,14 +102,10 @@
         </div>
       </div>
     </div>
-    <script scr="script.js"></script>
-    <script src="script4.js"></script>
-    <script src="shared.js"></script>
-    
-    
-    <script>
-      
 
+    <script src="script4.js"></script>
+
+    <script>
       // Calculate Profit or Loss
       async function calculateProfitOrLoss() {
         const incomeEndpoint = "http://localhost/Ei_backend/api/income.php";
@@ -144,13 +137,7 @@
         }
       }
 
-      // Logout
-      const logout = () => {
-        localStorage.removeItem("loggedin");
-        window.location.href = "index.html";
-      };
 
-      document.addEventListener("DOMContentLoaded", checkAuth);
     </script>
     <!-- JavaScript -->
     <script>

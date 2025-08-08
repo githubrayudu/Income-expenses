@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Transactions</title>
+  <title>Expenses Data</title>
   <link rel="stylesheet" href="stylesheet1.css" />
     <script src="shared.js" defer ></script>
   <script src="script.js" defer ></script>
@@ -18,7 +18,7 @@
     <div id="profileName" class="profile-name" style="display:none;">
       <span id="userNameDisplay"></span>
     </div>
-        <button class="logout-button" onclick="logout()">Logout</button>
+       <button id="logoutButton"class="logout-button" onclick="handleLogout()">Logout</button>
       </div>
     </header>
   
@@ -63,11 +63,12 @@
     </nav>
 
   <div class="container">
+
+     <input type="hidden" id="type" value="expenses" />
     <div class="left-section">
-      <h1 id="pageTitle">Transaction Data</h1>
+      <h1 id="pageTitle">Expenses Transaction Data</h1>
       <button onclick="navBack()">Back</button>
     </div>
-
     <div class="table-wrapper">
       <table style="width: 100%;">
         <thead>
@@ -75,10 +76,23 @@
             <th>Transaction Date</th>
             <th>Transaction Type</th>
             <th>Reviewer</th>
-            <th>Category</th>
-            <th>Description</th>
-            <th>Invoice No</th>
-            <th>Product Name</th>
+             <th>Category
+              <select class = "table-filter" name = "category">
+                <option value = "all"></option>
+           
+            </select>
+              </th>
+            <th>Description
+            </th>
+            <th>Invoice No
+                  <select class = "table-filter" name = "invoiceNo" >
+                <option value = "All"></option>
+                </select>
+            </th>
+            <th>Product Name
+                  <select class = "table-filter" name ="productName">
+                <option value = "all"></option>
+            </th>
             <th>Quantity</th>
             <th>Amount of Unit(₹)</th>
               <th>Total Amount of Product(₹)</th>
@@ -93,24 +107,8 @@
 
   <!-- JS -->
   <script>
-    // Auth check
-    const checkAuth = () => {
-      const loggedIn = localStorage.getItem("loggedin");
-      if (loggedIn) {
-        const username = localStorage.getItem("username");
-        document.getElementById("profileName").style.display = "block";
-        document.getElementById("userNameDisplay").textContent = username;
-      } else {
-        window.location.href = "index.html";
-      }
-    };
 
-    checkAuth();
 
-    const logout = () => {
-      localStorage.removeItem("loggedin");
-      window.location.href = "index.html";
-    };
 
     function navBack() {
       window.location.href = 'dashboard.html';
@@ -140,59 +138,7 @@
       });
     });
 
-    // Load transaction data
-    document.addEventListener("DOMContentLoaded", () => {
-      const queryParams = new URLSearchParams(window.location.search);
-      const type = queryParams.get("type") || "expenses"; // Default to income
 
-      document.getElementById("pageTitle").textContent = `${type.charAt(0).toUpperCase() + type.slice(1)} Transactions`;
-      document.getElementById("transactionTypeLabel").textContent = type.charAt(0).toUpperCase() + type.slice(1);
-
-      const endpoint = `http://localhost/Ei_backend/api/${type}.php`;
-      const transactionList = document.getElementById("transactionList");
-      const balanceAmountSpan = document.getElementById("balanceAmount");
-
-      async function fetchTransactions() {
-        try {
-          const res = await fetch(endpoint);
-          if (!res.ok) throw new Error(`Failed to fetch ${type} transactions`);
-
-          const data = await res.json();
-          transactionList.innerHTML = '';
-          let total = 0;
-
-          if (Array.isArray(data) && data.length > 0) {
-            data.forEach(tx => {
-              const row = document.createElement("tr");
-              row.innerHTML = `
-                <td>${new Date(tx.dateInsertedIntoDataBase).toLocaleDateString()}</td>
-                <td>${type}</td>
-                <td>${tx.reviewer}</td>
-                <td>${tx.category}</td>
-                <td>${tx.description}</td>
-                <td>${tx.invoiceNo}</td>
-                <td>${tx.productName}</td>
-                <td>${tx.quantity}</td>
-                <td>${parseFloat(tx.amount)}</td>
-            <td>${(parseFloat(tx.quantity) * parseFloat(tx.amount)).toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-              transactionList.appendChild(row);
-              total += parseFloat(tx.quantity) * parseFloat(tx.amount);
-            });
-          } else {
-            const row = document.createElement("tr");
-            row.innerHTML = `<td colspan="9">No ${type} transactions found.</td>`;
-            transactionList.appendChild(row);
-          }
-
-          balanceAmountSpan.textContent = total.toFixed(2);
-        } catch (err) {
-          console.error(`Error fetching ${type} transactions:`, err);
-          alert(`Error loading ${type}: ` + err.message);
-        }
-      }
-
-      fetchTransactions();
-    });
   </script>
 </body>
 </html>

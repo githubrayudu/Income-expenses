@@ -3,19 +3,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Income</title>
   <link rel="stylesheet" href="stylesheet1.css" />
-  
+  <script src="shared.js" defer></script>
 </head>
 
 <body>
   <header>
     <!-- Top bar and logout button -->
     <div class="top-bar">
-    <!-- timer or clock in the top right corner  -->
+      <!-- timer or clock in the top right corner  -->
       <div id="clock">Loading...</div>
       <div id="profileName" class="profile-name" style="display: none">
         <span id="userNameDisplay"></span>
       </div>
-      <button class="logout-button" onclick="logout()">Logout</button>
+      <button id="logoutButton" class="logout-button" onclick="handleLogout()">
+        Logout
+      </button>
     </div>
   </header>
 
@@ -25,15 +27,15 @@
     <span></span>
     <span></span>
   </div>
-
   <!-- Navigation Menu -->
- <nav class="nav-menu" id="navMenu">
+  <nav class="nav-menu" id="navMenu">
     <ul>
       <li class="has-submenu">
         <a href="#">Income <span class="arrow">▶</span></a>
         <ul class="submenu">
           <li><a href="incomedata.html">Income Data</a></li>
           <li><a href="addIncome.html">Add Income</a></li>
+          <li><a href="editIncome.html">Edit Income</a></li>
         </ul>
       </li>
       <li class="has-submenu">
@@ -41,6 +43,7 @@
         <ul class="submenu">
           <li><a href="expensesdata.html">Expenses Data</a></li>
           <li><a href="addexpenses.html">Add Expenses</a></li>
+          <li><a href="editExpenses.html">Edit Expenses</a></li>
         </ul>
       </li>
       <li class="has-submenu">
@@ -58,18 +61,18 @@
     </ul>
   </nav>
 
-
   <!-- Main Content -->
   <div class="container">
     <div class="left-section">
       <h1>Financial Summary</h1>
       <button onclick="navBack()">Back</button>
-
-      <h1>Total Income: Rs <span id="incomeTotal">0.00</span></h1>
-      <h1>Total Expenses: Rs <span id="expensesTotal">0.00</span></h1>
-      <h1>
-        <strong>Result:</strong> <span id="profitOrLoss">Calculating...</span>
-      </h1>
+      <div class="summarycard">
+        <h1>Total Income: Rs <span id="incomeTotal">0.00</span></h1>
+        <h1>Total Expenses: Rs <span id="expensesTotal">0.00</span></h1>
+        <h1>
+          <strong>Result:</strong> <span id="profitOrLoss">Calculating...</span>
+        </h1>
+      </div>
     </div>
   </div>
 
@@ -85,7 +88,7 @@
     });
 
     // Toggle submenu and rotate arrow
-    document.querySelectorAll(".has-submenu > a").forEach(link => {
+    document.querySelectorAll(".has-submenu > a").forEach((link) => {
       link.addEventListener("click", function (e) {
         e.preventDefault();
         const submenu = this.nextElementSibling;
@@ -97,7 +100,7 @@
     });
 
     // Optional: Close menu on link click (mobile)
-    document.querySelectorAll(".nav-menu .submenu a").forEach(link => {
+    document.querySelectorAll(".nav-menu .submenu a").forEach((link) => {
       link.addEventListener("click", () => {
         navMenu.classList.remove("open");
         hamburger.classList.remove("clicked");
@@ -113,7 +116,10 @@
         if (!res.ok) throw new Error(`Failed to fetch from ${endpoint}`);
         const data = await res.json();
         if (!Array.isArray(data)) return 0;
-        return data.reduce((sum, tx) => sum + parseFloat(tx.totalAmountOfProduct || 0), 0);
+        return data.reduce(
+          (sum, tx) => sum + parseFloat(tx.totalAmountOfProduct || 0),
+          0
+        );
       } catch (err) {
         console.error(err);
         return 0;
@@ -128,7 +134,8 @@
         fetchTotal(expensesEndpoint),
       ]);
       document.getElementById("incomeTotal").textContent = income.toFixed(2);
-      document.getElementById("expensesTotal").textContent = expenses.toFixed(2);
+      document.getElementById("expensesTotal").textContent =
+        expenses.toFixed(2);
 
       const resultEl = document.getElementById("profitOrLoss");
       if (income > expenses) {
@@ -148,59 +155,8 @@
 
   <!-- Auth & Navigation -->
   <script>
-    const checkAuth = () => {
-      const loggedIn = localStorage.getItem("loggedin");
-      if (loggedIn) {
-        const username = localStorage.getItem("username");
-        document.getElementById("profileName").style.display = "block";
-        document.getElementById("userNameDisplay").textContent = username;
-      } else {
-        window.location.href = "index.html";
-      }
-    };
-
-    const logout = () => {
-      localStorage.removeItem("loggedin");
-      window.location.href = "index.html";
-    };
-
     const navBack = () => {
       window.location.href = "dashboard.html";
     };
-
-    checkAuth();
-
- function updateClock() {
-    const now = new Date();
-
-    const day = now.getDate().toString().padStart(2, "0");
-    const monthNames = [
-      "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
-    ];
-    const month = monthNames[now.getMonth()];
-    const year = now.getFullYear();
-
-    let hours = now.getHours();
-    const minutes = now.getMinutes().toString().padStart(2, "0");
-    const ampm = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12;
-    hours = hours ? hours : 12; // Fix hour '0' to 12
-
-    const time = `${hours.toString().padStart(2, "0")}:${minutes} ${ampm}`;
-    const formatted = `${day} ${month} ${year} ${time}`;
-
-    // Update clock element
-    const clockElement = document.getElementById("clock");
-    if (clockElement) {
-      clockElement.textContent = formatted;
-    }
-  }
-
-  // Call updateClock immediately and set interval to update every second
-  setInterval(updateClock, 1000);  // Update every second
-  updateClock();  // Initialize clock immediately
-
-
   </script>
 </body>
-  
