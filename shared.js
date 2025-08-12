@@ -16,18 +16,9 @@ function updateClock() {
   const now = new Date();
   const day = now.getDate().toString().padStart(2, "0");
   const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "January",    "February",    "March",    "April",    "May",
+    "June",    "July",    "August",    "September",    "October",
+    "November",    "December",
   ];
   const month = monthNames[now.getMonth()];
   const year = now.getFullYear();
@@ -94,8 +85,30 @@ setInterval(updateClock, 1000); // Call updateClock immediately and set interval
 updateClock(); // Initialize clock immediately
 updateGreeting(); // Initialize Greeting
 
+//Session timeout could this will logout the user if the users not uses application for some time 
+
+let timeout;
+const logoutAfter = 1 *60*1000 ; // 10 sec  for testing 
+
+function resetTimer(){
+  clearTimeout(timeout);
+  timeout = setTimeout(logout , logoutAfter);
+
+}
+function logout(){
+  alert("Session expired. Logging out .");
+  window.location.href = 'index.html';
+}
+  //events to reset timer 
+['click','mousemove','keypress'].forEach(evt=>document.addEventListener(evt,resetTimer));
+resetTimer();
 
 
+
+
+
+
+//handle logout function clearing all the localStorage and session Strorages 
 function handleLogout() {
   // 1. Clear client-side data
   localStorage.clear(); // Clear all local storage data
