@@ -7,7 +7,7 @@
     <title>Add Income</title>
     <link rel="stylesheet" href="stylesheet1.css">
       <script src="shared.js" defer></script>
-    <script src="script2.js" defer ></script>
+    <script src="script.js" defer ></script>
  
 </head>
 
@@ -16,12 +16,20 @@
      <!-- Top bar and logout button -->
       <div class="top-bar">
         <!-- timer or clock in the top right corner  -->
+       
       <div id="clock">Loading...</div>
         <!-- Profile name (will be displayed once user logs in) -->
     <div id="profileName" class="profile-name" style="display:none;">
       <span id="userNameDisplay"></span>
     </div>
+    <div>   <button class = "dark-theme" onclick=darkTheme() ondblclick="lightTheme()"> Dark Theme</button>
+    </div>
+ 
         <button id="logoutButton"class="logout-button" onclick="handleLogout()">Logout</button>
+
+         
+         
+                  </div>
       </div>
     </header>
   <!-- Hamburger Button -->
@@ -161,9 +169,27 @@
         hamburger.classList.remove("clicked");
       });
     });
+
+
+
+
+    const darkTheme = function() {
+    document.querySelector("body").style.backgroundColor = "rgb(10, 4, 67)"
+    document.querySelector(".dark-theme").textContent = "Light Theme"
+    document.querySelector("header").style.backgroundColor = "#2E282A"
+
+}
+
+const lightTheme = function() {
+    document.querySelector("body").style.backgroundColor = "white"
+    document.querySelector(".dark-theme").textContent = "Dark Theme"
+    document.querySelector("header").style.backgroundColor = "#F86624"
+
+
+}
   </script>
 
-
+<script src ="testscript.js"></script>
        
 </body>
 </html>

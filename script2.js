@@ -1,7 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   const form = document.getElementById("transactionForm");
-  const type = document.getElementById("type").value; // 'income' or 'expenses'
+const queryParams = new URLSearchParams(window.location.search);
+  let type = queryParams.get("type");
+  if (!type) {
+    const file = window.location.pathname.split("/").pop().toLowerCase();
+    if (file.includes("income")) type = "income";
+    else if (file.includes("expense")) type = "expenses";
+    else type = "income" || "expenses";
+  }
   const endpoint = `http://localhost/Ei_backend/api/${type}.php`;
 
   const inputs = {
