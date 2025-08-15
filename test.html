@@ -1,16 +1,348 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <link rel="stylesheet" href="stylesheet1.css" />
-  </head>
-  <body>
-    <h1>Hi</h1>
-    <p id="demo">this is the example of paragraph</p>
-    <button
-      id="buttonid"
-      onclick="document.getElementById('demo').innerHTML=Date()">
-      click hear
-    </button>
-    <!-- <element event='some JavaScript'></element> -->
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simple Pagination</title>
+  <link rel="stylesheet" href="stylesheet1.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .pagination {
+      margin-top: 20px;
+    }
+    .pagination button {
+      margin: 0 2px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    .active-page {
+      background-color: #007bff;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+ 
+<header>
+     <!-- Top bar and logout button -->
+      <div class="top-bar">
+        <!-- timer or clock in the top right corner  -->
+      <div id="clock">Loading...</div>
+        <!-- Profile name (will be displayed once user logs in) -->
+    <div id="profileName" class="profile-name" style="display:none;">
+      <span id="userNameDisplay"></span>
+    </div>
+        <button id="logoutButton"class="logout-button" onclick="handleLogout()">Logout</button>
+      </div>
+    </header>
+
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+    <!-- Navigation Menu -->
+    <nav class="nav-menu" id="navMenu">
+      <ul>
+        <li class="has-submenu">
+          <a href="#">Income <span class="arrow">▶</span></a>
+          <ul class="submenu">
+            <li><a href="incomedata.html">Income Data</a></li>
+            <li><a href="addIncome.html">Add Income</a></li>
+            <li><a href="editIncome.html">Edit Income</a></li>
+          </ul>
+        </li>
+        <li class="has-submenu">
+          <a href="#">Expenses <span class="arrow">▶</span></a>
+          <ul class="submenu">
+            <li><a href="expensesdata.html">Expenses Data</a></li>
+            <li><a href="addexpenses.html">Add Expenses</a></li>
+             <li><a href="editExpenses.html">Edit Expenses</a></li>
+          </ul>
+        </li>
+        <li class="has-submenu">
+          <a href="#">Summary <span class="arrow">▶</span></a>
+          <ul class="submenu">
+            <li><a href="summary.html">Summary</a></li>
+          </ul>
+        </li>
+        <li class="has-submenu">
+          <a href="#">Dashboard <span class="arrow">▶</span></a>
+          <ul class="submenu">
+            <li><a href="dashboard.html">Dashboard</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+  <div class="container">
+    <!-- <li><a href="transactiondata.html?type=income">Income Data</a></li> -->
+    <input type="hidden" id="type" value="income" />
+    <div class="left-section">
+      <h1 id="pageTitle">Transaction Data</h1>
+      <button onclick="navBack()">Back</button>
+    </div>
+
+    <div class="table-wrapper">
+      <table id = "income-data-table"style="width: 100%;">
+        <thead>
+          <tr>
+            <th>Transaction Date</th>
+            <th>Transaction Type</th>
+            <th>Reviewer</th>
+            <th>Category
+              <select class = "table-filter" name = "category">
+                <option value = "all"></option>
+           
+            </select>
+              </th>
+            <th>Description
+            </th>
+            <th>Invoice No
+                  <select class = "table-filter" name = "invoiceNo" >
+                <option value = "All"></option>
+                </select>
+            </th>
+            <th>Product Name
+                  <select class = "table-filter" name ="productName">
+                <option value = "all"></option>
+            </th>
+            <th>Quantity</th>
+            <th>Amount of Unit(₹)</th>
+              <th>Total Amount of Product(₹)</th>
+          </tr>
+        </thead>
+        <tbody id="transactionList"></tbody>
+      </table>
+
+      
+    </div>
+<div id="pagination"></div>
+    <h3>Total <span id="transactionTypeLabel">Amount</span>: ₹ <span id="balanceAmount">0</span></h3>
+  </div>
+
+ <script>
+
+
+    function navBack() {
+      window.location.href = 'dashboard.html';
+    }
+
+    // Menu toggling
+    const hamburger = document.getElementById("hamburger");
+    const navMenu = document.getElementById("navMenu");
+
+    hamburger.addEventListener("click", () => {
+      navMenu.classList.toggle("open");
+      hamburger.classList.toggle("clicked");
+    });
+
+    document.querySelectorAll(".has-submenu > a").forEach(link => {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        this.nextElementSibling.classList.toggle("open");
+        this.querySelector(".arrow").classList.toggle("rotate");
+      });
+    });
+
+    document.querySelectorAll(".nav-menu .submenu a").forEach(link => {
+      link.addEventListener("click", () => {
+        navMenu.classList.remove("open");
+        hamburger.classList.remove("clicked");
+      });
+    });
+
+    // Load transaction data
+    document.addEventListener("DOMContentLoaded", () => {
+
+      let allTransactions = []; // Store fetched data globally
+let currentPage = 1;
+const itemsPerPage = 10;
+      const queryParams = new URLSearchParams(window.location.search);
+      const type = queryParams.get("type") || "income"; // Default to income
+
+      document.getElementById("pageTitle").textContent = `${type.charAt(0).toUpperCase() + type.slice(1)} Transactions`;
+      document.getElementById("transactionTypeLabel").textContent = type.charAt(0).toUpperCase() + type.slice(1);
+
+      const endpoint = `http://localhost/Ei_backend/api/${type}.php`;
+      const transactionList = document.getElementById("transactionList");
+      const balanceAmountSpan = document.getElementById("balanceAmount");
+
+
+//fetchTransactions 
+
+ async function fetchTransactions() {
+  try {
+    const res = await fetch(endpoint);
+    if (!res.ok) throw new Error(`Failed to fetch ${type} transactions`);
+
+    const data = await res.json();
+    allTransactions = Array.isArray(data) ? data : [];
+
+    currentPage = 1; // Reset to first page when new data is fetched
+    renderPage(); // Render the first page
+
+  } catch (err) {
+    console.error(`Error fetching ${type} transactions:`, err);
+    alert(`Error loading ${type}: ` + err.message);
+  }
+}
+
+
+// render the page 
+function renderPage() {
+  transactionList.innerHTML = ''; // Clear the table
+  let total = 0;
+
+  const start = (currentPage - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  const pageItems = allTransactions.slice(start, end);
+
+  if (pageItems.length > 0) {
+    pageItems.forEach(tx => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${new Date(tx.dateInsertedIntoDataBase).toLocaleDateString()}</td>
+        <td>${type}</td>
+        <td>${tx.reviewer}</td>
+        <td>${tx.category}</td>
+        <td>${tx.description}</td>
+        <td>${tx.invoiceNo}</td>
+        <td>${tx.productName}</td>
+        <td>${tx.quantity}</td>
+        <td>${parseFloat(tx.amount)}</td>
+        <td>${(parseFloat(tx.quantity) * parseFloat(tx.amount)).toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+      `;
+      transactionList.appendChild(row);
+
+      total += parseFloat(tx.quantity) * parseFloat(tx.amount);
+    });
+  } else {
+    const row = document.createElement("tr");
+    row.innerHTML = `<td colspan="10">No ${type} transactions found.</td>`;
+    transactionList.appendChild(row);
+  }
+
+  balanceAmountSpan.textContent = total.toFixed(2);
+  renderPaginationControls();
+}
+
+
+//Rendring page controll 
+
+function renderPaginationControls() {
+  const paginationContainer = document.getElementById('pagination'); // create a div with id="pagination"
+  paginationContainer.innerHTML = '';
+
+  const totalPages = Math.ceil(allTransactions.length / itemsPerPage);
+
+  // Previous button
+  const prevBtn = document.createElement('button');
+  prevBtn.textContent = 'Previous';
+  prevBtn.disabled = currentPage === 1;
+  prevBtn.onclick = () => {
+    currentPage--;
+    renderPage();
+  };
+  paginationContainer.appendChild(prevBtn);
+
+  // Page numbers
+  for (let i = 1; i <= totalPages; i++) {
+    const btn = document.createElement('button');
+    btn.textContent = i;
+    if (i === currentPage) btn.disabled = true;
+    btn.onclick = () => {
+      currentPage = i;
+      renderPage();
+    };
+    paginationContainer.appendChild(btn);
+  }
+
+  // Next button
+  const nextBtn = document.createElement('button');
+  nextBtn.textContent = 'Next';
+  nextBtn.disabled = currentPage === totalPages;
+  nextBtn.onclick = () => {
+    currentPage++;
+    renderPage();
+  };
+  paginationContainer.appendChild(nextBtn);
+}
+
+
+
+      fetchTransactions();
+    });
+  </script>
+
+
+  <script>
+    const items = Array.from({ length: 100 }, (_, i) => `Item ${i + 1}`); // 50 dummy items
+    const itemsPerPage = 25;
+    let currentPage = 1;
+    function displayItems(page) {
+      const start = (page - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      const paginatedItems = items.slice(start, end);
+
+      const list = document.getElementById('item-list');
+      list.innerHTML = '';
+      paginatedItems.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        list.appendChild(li);
+      });
+    }
+
+    function setupPagination() {
+      const totalPages = Math.ceil(items.length / itemsPerPage);
+      const pagination = document.getElementById('pagination');
+      pagination.innerHTML = '';
+
+      const prevButton = document.createElement('button');
+      prevButton.textContent = 'Prev';
+      prevButton.disabled = currentPage === 1;
+      prevButton.onclick = () => {
+        if (currentPage > 1) {
+          currentPage--;
+          update();
+        }
+      };
+      pagination.appendChild(prevButton);
+
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = i;
+        if (i === currentPage) btn.classList.add('active-page');
+        btn.onclick = () => {
+          currentPage = i;
+          update();
+        };
+        pagination.appendChild(btn);
+      }
+
+      const nextButton = document.createElement('button');
+      nextButton.textContent = 'Next';
+      nextButton.disabled = currentPage === totalPages;
+      nextButton.onclick = () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          update();
+        }
+      };
+      pagination.appendChild(nextButton);
+    }
+
+    function update() {
+      displayItems(currentPage);
+      setupPagination();
+    }
+
+    // Initialize
+    update();
+  </script>
+</body>
 </html>

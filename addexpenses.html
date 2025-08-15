@@ -97,22 +97,17 @@
     </div>
   <h3>Total Expenses: ₹ <span id="balanceAmount">0</span></h3>
 </div>
-  
-
   <script>
        function navBack() {
       window.location.href = 'dashboard.html';
     }
-
     const hamburger = document.getElementById("hamburger");
     const navMenu = document.getElementById("navMenu");
-
     // Toggle side menu
     hamburger.addEventListener("click", () => {
       navMenu.classList.toggle("open");
       hamburger.classList.toggle("clicked");
     });
-
     // Toggle submenu and rotate arrow
     document.querySelectorAll(".has-submenu > a").forEach(link => {
       link.addEventListener("click", function (e) {
