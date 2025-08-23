@@ -1,47 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-
-// Clock update function
-  function updateClock() {
-    const now = new Date();
-
-    const day = now.getDate().toString().padStart(2, "0");
-    const monthNames = [
-      "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
-    ];
-    const month = monthNames[now.getMonth()];
-    const year = now.getFullYear();
-
-    let hours = now.getHours();
-    const minutes = now.getMinutes().toString().padStart(2, "0");
-    const ampm = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12;
-    hours = hours ? hours : 12; // Fix hour '0' to 12
-
-    const time = `${hours.toString().padStart(2, "0")}:${minutes} ${ampm}`;
-    const formatted = `${day} ${month} ${year} ${time}`;
-
-    // Update clock element
-    const clockElement = document.getElementById("clock");
-    if (clockElement) {
-      clockElement.textContent = formatted;
-    }
-  }
-
-  // Call updateClock immediately and set interval to update every second
-  setInterval(updateClock, 1000);  // Update every second
-  updateClock();  // Initialize clock immediately
-
-
-
-
-
-
-
-
-
   const form = document.getElementById("transactionForm");
-  const type = document.getElementById("type").value; // 'income' or 'expenses'
+const queryParams = new URLSearchParams(window.location.search);
+  let type = queryParams.get("type");
+  if (!type) {
+    const file = window.location.pathname.split("/").pop().toLowerCase();
+    if (file.includes("income")) type = "income";
+    else if (file.includes("expense")) type = "expenses";
+    else type = "income" || "expenses";
+  }
   const endpoint = `http://localhost/Ei_backend/api/${type}.php`;
 
   const inputs = {
@@ -99,8 +66,8 @@ document.addEventListener("DOMContentLoaded", () => {
           <td>${parseFloat(tx.amount)}</td>
           <td>${totalAmount.toFixed(2)}</td>
           <td>
-            <button class="edit-btn" data-id="${tx.id}">Edit</button>
-            <button class="delete-btn" data-id="${tx.id}">Delete</button>
+            <button class="edit-btn" data-id="${tx.id}">✎</button>
+            <button class="delete-btn" data-id="${tx.id}">🗑</button>
           </td>
         `;
         transactionList.appendChild(row);
@@ -217,14 +184,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Search box filter
-  searchBox.addEventListener("input", () => {
-    const term = searchBox.value.toLowerCase();
-    const filtered = allTransactions.filter(tx =>
-      tx.invoiceNo.toLowerCase().includes(term)
-    );
-    renderTable(filtered);
-  });
+ // Search filter
+  if (searchBox) {
+    searchBox.addEventListener("input", () => {
+      const term = searchBox.value.toLowerCase();
+      const filtered = allTransactions.filter(tx =>
+        (tx.invoiceNo || "").toLowerCase().includes(term) ||
+        (tx.productName || "").toLowerCase().includes(term) ||
+        (tx.category || "").toLowerCase().includes(term) ||
+        (tx.reviewer || "").toLowerCase().includes(term) ||
+        (tx.description || "").toLowerCase().includes(term)
+      );
+      renderTable(filtered);
+    });
+  }
 
   // Initial fetch
   fetchTransactions();

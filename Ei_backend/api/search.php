@@ -8,10 +8,21 @@ require_once '../config/config.php';
 $db = getDB();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    // Get search term from query string
     $searchTerm = isset($_GET['q']) ? trim($_GET['q']) : '';
+    $type = isset($_GET['type']) ? trim($_GET['type']) : 'income';
+    $field = isset($_GET['field']) ? trim($_GET['field']) : 'category';
 
-    // Return empty result if no term provided
+    // Whitelist of allowed searchable fields
+    $allowedFields = ['category', 'productName', 'invoiceNo', 'reviewer'];
+
+    // Validate field
+    if (!in_array($field, $allowedFields)) {
+        http_response_code(400);
+        echo json_encode(["error" => "Invalid field requested."]);
+        exit;
+    }
+
+    // Return empty array if no search term
     if (empty($searchTerm)) {
         echo json_encode([]);
         exit;
@@ -19,16 +30,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     try {
         $stmt = $db->prepare("
-            SELECT DISTINCT category 
+            SELECT DISTINCT $field 
             FROM transactions 
-            WHERE type = 'income' AND category LIKE :search 
-            ORDER BY category ASC
+            WHERE type = :type AND $field LIKE :search 
+            ORDER BY $field ASC
         ");
-        $stmt->execute([':search' => '%' . $searchTerm . '%']);
+        $stmt->execute([
+            ':type' => $type,
+            ':search' => '%' . $searchTerm . '%'
+        ]);
 
         $results = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $results[] = $row['category'];
+            $results[] = $row[$field];
         }
 
         echo json_encode($results);
